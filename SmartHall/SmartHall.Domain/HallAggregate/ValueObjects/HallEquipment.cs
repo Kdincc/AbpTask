@@ -16,6 +16,7 @@ namespace SmartHall.Domain.HallAggregate.ValueObjects
 		}
 
 		public string Name { get; private set; }
+
 		public Cost Cost { get; private set; }
 
 		public override IEnumerable<object> GetEqualityComponents()
