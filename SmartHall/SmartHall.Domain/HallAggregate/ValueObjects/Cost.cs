@@ -20,5 +20,15 @@ namespace SmartHall.Domain.HallAggregate.ValueObjects
 		{
 			yield return Value;
 		}
+
+		public static Cost Create(decimal value)
+		{
+			if (value < 0)
+			{
+				throw new ArgumentException("Cost cannot be negative");
+			}
+
+			return new Cost(value);
+		}
 	}
 }
