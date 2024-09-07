@@ -1,4 +1,5 @@
 ﻿using SmartHall.Domain.Common.Models;
+using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using SmartHall.Domain.HallEqupmentAggregate;
 using System;
