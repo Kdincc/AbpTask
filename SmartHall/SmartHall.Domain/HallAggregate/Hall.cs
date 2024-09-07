@@ -1,5 +1,6 @@
 ﻿using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
+using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using SmartHall.Domain.HallEqupmentAggregate;
 using SmartHall.Domain.HallEqupmentAggregate.ValueObjects;
@@ -13,12 +14,13 @@ namespace SmartHall.Domain.HallAggregate
 {
     public sealed class Hall : AggregateRoot<HallId>
 	{
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipmentId> hallEquipment) : base(id)
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipmentId> hallEquipment, List<Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
 			BaseCost = baseCost;
 			HallEquipment = hallEquipment;
+			Reservations = reservations;
 		}
 
 		public string Name { get; private set; }
@@ -28,5 +30,7 @@ namespace SmartHall.Domain.HallAggregate
 		public Cost BaseCost { get; private set; }
 
 		public IReadOnlyCollection<HallEquipmentId> HallEquipment { get; private set; }
+
+		public IReadOnlyCollection<Reservation> Reservations { get; private set; }
 	}
 }

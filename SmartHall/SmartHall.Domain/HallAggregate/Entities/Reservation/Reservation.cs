@@ -10,8 +10,11 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation
 {
 	public sealed class Reservation : Entity<ReservationId>
 	{
-		public Reservation(ReservationId id) : base(id)
+		public Reservation(ReservationId id, ReservationPeriod period) : base(id)
 		{
+			Period = period;
 		}
+
+		public ReservationPeriod Period { get; private set; }
 	}
 }
