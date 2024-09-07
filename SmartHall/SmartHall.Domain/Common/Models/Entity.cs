@@ -8,7 +8,12 @@ namespace SmartHall.Domain.Common.Models
 {
 	public abstract class Entity<TId> : IEquatable<Entity<TId>>	where TId : notnull, ValueObject
 	{
-		public TId Id { get; protected set; }
+        protected Entity(TId id)
+        {
+            Id = id;
+        }
+
+        public TId Id { get; protected set; }
 
 		public bool Equals(Entity<TId> other)
 		{
