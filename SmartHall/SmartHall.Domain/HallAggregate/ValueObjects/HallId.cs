@@ -35,5 +35,20 @@ namespace SmartHall.Domain.HallAggregate.ValueObjects
 
 			return new HallId(value);
 		}
+
+		public static HallId CreateUnique()
+		{
+			return new HallId(Guid.NewGuid());
+		}
+
+		public static HallId Create(Guid value)
+		{
+			if (value == Guid.Empty)
+			{
+				throw new ArgumentException("HallId cannot be empty");
+			}
+
+			return new HallId(value);
+		}
 	}
 }
