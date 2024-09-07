@@ -1,4 +1,5 @@
 ﻿using SmartHall.Domain.Common.Models;
+using SmartHall.Domain.HallAggregate.Entities;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate
 {
-	public sealed class Hall : AggregateRoot<HallId>
+    public sealed class Hall : AggregateRoot<HallId>
 	{
 		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment) : base(id)
 		{
