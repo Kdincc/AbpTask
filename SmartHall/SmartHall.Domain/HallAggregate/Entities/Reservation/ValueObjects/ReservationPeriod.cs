@@ -9,15 +9,20 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 {
 	public sealed class ReservationPeriod : ValueObject
 	{
-        private ReservationPeriod(DateTimeOffset start, DateTimeOffset end)
+        private ReservationPeriod(DateTimeOffset start, TimeSpan duratation)
         {
             Start = start;
-			End = end;
+
+			Duration = duratation;
+
+			End = start.Add(duratation);
         }
 
         public DateTimeOffset Start { get; private set; }
 
 		public DateTimeOffset End { get; private set; }
+
+		public TimeSpan Duration { get; private set; }
 
 		public override IEnumerable<object> GetEqualityComponents()
 		{
@@ -30,14 +35,35 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 			return Start < period.Start && End > period.End;
 		}
 
-		public static ReservationPeriod Create(DateTimeOffset start, DateTimeOffset end)
+		public static ReservationPeriod Create(DateTimeOffset start, TimeSpan duratation)
 		{
-			if (start >= end)
+			ValidatePeriod(start, duratation);
+
+			return new ReservationPeriod(start, duratation);
+		}
+
+		private static void ValidatePeriod(DateTimeOffset startDate, TimeSpan duration)
+		{
+			var endDate = startDate.Add(duration);
+			var startTime = startDate.TimeOfDay;
+			var endTime = endDate.TimeOfDay;
+
+			if (startTime < TimeSpan.FromHours(6) || endTime > TimeSpan.FromHours(23))
 			{
-				throw new ArgumentException("Start date must be before end date");
+				throw new ArgumentException("Reservation must be within the operating hours of 06:00 to 23:00.");
 			}
 
-			return new ReservationPeriod(start, end);
+			if (endDate <= startDate)
+			{
+				throw new ArgumentException("End date must be after the start date.");
+			}
+
+			// Ensure that start and end times are within the same calendar day
+			if (startDate.Date != endDate.Date)
+			{
+				throw new ArgumentException("Reservation must be within a single calendar day.");
+			}
 		}
+
 	}
 }

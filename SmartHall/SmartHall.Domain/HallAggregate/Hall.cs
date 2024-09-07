@@ -43,11 +43,11 @@ namespace SmartHall.Domain.HallAggregate
 			HallEquipment = hallEquipment;
 		}
 
-		public void AddReservation(Reservation reservation)
+		public void Reserve(Reservation reservation)
 		{
-			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period))
+			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period)))
 		    {
-
+				throw new ArgumentException("Reservation period overlapse with another reservation");
 			}
 
 			_reservations.Add(reservation);
