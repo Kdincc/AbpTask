@@ -10,6 +10,14 @@ namespace SmartHall.Domain.HallAggregate
 {
 	public sealed class Hall : AggregateRoot<HallId>
 	{
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment) : base(id)
+		{
+			Name = name;
+			Capacity = capacity;
+			BaseCost = baseCost;
+			HallEquipment = hallEquipment;
+		}
+
 		public string Name { get; private set; }
 
 		public Capacity Capacity { get; private set; }
@@ -18,12 +26,5 @@ namespace SmartHall.Domain.HallAggregate
 
 		public IReadOnlyCollection<HallEquipment> HallEquipment { get; private set; }
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment) : base(id)
-		{
-			Name = name;
-			Capacity = capacity;
-			BaseCost = baseCost;
-			HallEquipment = hallEquipment;
-		}
 	}
 }
