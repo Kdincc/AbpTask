@@ -34,5 +34,15 @@ namespace SmartHall.Domain.Common.Models
 		{
 			return HashCode.Combine(GetEqualityComponents());
 		}
+
+		public static bool operator ==(ValueObject left, ValueObject right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(ValueObject left, ValueObject right)
+		{
+			return !left.Equals(right);
+		}
 	}
 }
