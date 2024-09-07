@@ -9,9 +9,16 @@ namespace SmartHall.Domain.HallAggregate.ValueObjects
 {
 	public sealed class Cost : ValueObject
 	{
+		public decimal Value { get; private set; }
+
+		private Cost(decimal value)
+		{
+			Value = value;
+		}
+
 		public override IEnumerable<object> GetEqualityComponents()
 		{
-			throw new NotImplementedException();
+			yield return Value;
 		}
 	}
 }
