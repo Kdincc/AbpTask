@@ -5,7 +5,6 @@ using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
-using SmartHall.Domain.HallEqupmentAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

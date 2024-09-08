@@ -17,6 +17,12 @@ namespace SmartHall.Domain.HallAggregate
 		private readonly List<Reservation> _reservations;
 		private List<HallEquipment> _equipment;
 
+		private Hall(HallId id) : base(id)
+		{
+			_reservations = [];
+			_equipment = [];
+		}
+
 		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment, List<Reservation> reservations) : base(id)
 		{
 			Name = name;
