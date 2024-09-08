@@ -1,4 +1,6 @@
 
+using SmartHall.Infrastructure;
+
 namespace SmartHall
 {
 	public class Program
@@ -6,6 +8,8 @@ namespace SmartHall
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			builder.Services.AddInfrastructure(builder.Configuration);
 
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
