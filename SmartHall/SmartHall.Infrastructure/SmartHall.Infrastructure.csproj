@@ -22,4 +22,8 @@
     <ProjectReference Include="..\SmartHall.Domain\SmartHall.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistense\Repos\" />
+  </ItemGroup>
+
 </Project>
