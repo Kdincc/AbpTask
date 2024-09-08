@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartHall.Application.Common.Persistance;
 using SmartHall.Infrastructure.Persistense;
+using SmartHall.Infrastructure.Persistense.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,10 @@ namespace SmartHall.Infrastructure
 				options.UseSqlServer(
 					configuration.GetConnectionString("DefaultConnection"),
 					b => b.MigrationsAssembly(typeof(SmartHallDbContext).Assembly.FullName)));
+
+			services.AddScoped<IHallRepository, HallRepository>();
+			services.AddScoped<IHallEquipmentTypeRepository, HallEquipmentTypeRepository>();
+			services.AddScoped<IReservationRepository, ReservationsRepository>();
 		}
 	}
 }
