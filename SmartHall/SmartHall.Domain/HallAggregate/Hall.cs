@@ -33,9 +33,9 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IReadOnlyCollection<HallEquipmentTypeId> HallEquipment => _equipment;
+		public IEnumerable<HallEquipmentTypeId> HallEquipment => _equipment;
 
-		public IReadOnlyCollection<Reservation> Reservations => _reservations;
+		public IEnumerable<Reservation> Reservations => _reservations;
 
 		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipmentTypeId> hallEquipment)
 		{

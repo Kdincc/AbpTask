@@ -25,6 +25,6 @@ namespace SmartHall.Domain.HallEqupmentAggregateType
 
         public Cost Cost { get; private set; }
 
-        public IReadOnlyCollection<HallId> Halls => _halls;
+        public IEnumerable<HallId> Halls => _halls;
     }
 }
