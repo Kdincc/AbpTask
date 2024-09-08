@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartHall.Application.Common.Persistance;
-using SmartHall.Domain.HallEqupmentAggregate.ValueObjects;
-using SmartHall.Domain.HallEqupmentAggregateType;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Infrastructure.Persistense.Repos
 {
-	public sealed class HallEquipmentTypeRepository : IHallEquipmentTypeRepository
+    public sealed class HallEquipmentTypeRepository : IHallEquipmentTypeRepository
 	{
 		private readonly SmartHallDbContext _context;
 
@@ -20,14 +20,14 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 			_context = context;
 		}
 
-		public async Task AddAsync(HallEquipmentType entity, CancellationToken cancellationToken)
+		public async Task AddAsync(Domain.HallAggregate.Entities.HallEquipment.HallEquipment entity, CancellationToken cancellationToken)
 		{
 			await _context.AddAsync(entity, cancellationToken);
 
 			await _context.SaveChangesAsync(cancellationToken);
 		}
 
-		public async Task DeleteAsync(HallEquipmentType entity, CancellationToken cancellationToken)
+		public async Task DeleteAsync(Domain.HallAggregate.Entities.HallEquipment.HallEquipment entity, CancellationToken cancellationToken)
 		{
 			var hallEquipmentTypeToDelete = await _context.HallEquipmentTypes.FirstOrDefaultAsync(e => e == entity, cancellationToken);
 
@@ -36,19 +36,19 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 			await _context.SaveChangesAsync(cancellationToken);
 		}
 
-		public async Task<IEnumerable<HallEquipmentType>> GetAllAsync(CancellationToken cancellationToken)
+		public async Task<IEnumerable<Domain.HallAggregate.Entities.HallEquipment.HallEquipment>> GetAllAsync(CancellationToken cancellationToken)
 		{
 			return await _context.HallEquipmentTypes.ToListAsync(cancellationToken);
 		}
 
-		public async Task<HallEquipmentType> GetByIdAsync(HallEquipmentTypeId id, CancellationToken cancellationToken)
+		public async Task<Domain.HallAggregate.Entities.HallEquipment.HallEquipment> GetByIdAsync(Domain.HallAggregate.Entities.HallEquipment.ValueObjects.HallEquipmentId id, CancellationToken cancellationToken)
 		{
 			var hallEquipmentType = await _context.HallEquipmentTypes.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
 			return hallEquipmentType;
 		}
 
-		public async Task UpdateAsync(HallEquipmentType entity, CancellationToken cancellationToken)
+		public async Task UpdateAsync(Domain.HallAggregate.Entities.HallEquipment.HallEquipment entity, CancellationToken cancellationToken)
 		{
 			var hallEquipmentTypeToUpdate = await _context.HallEquipmentTypes.FirstOrDefaultAsync(e => e == entity, cancellationToken);
 

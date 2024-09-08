@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartHall.Domain.HallAggregate;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
-using SmartHall.Domain.HallEqupmentAggregateType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace SmartHall.Infrastructure.Persistense
 
         public DbSet<Hall> Halls { get; set; }
 
-        public DbSet<HallEquipmentType> HallEquipmentTypes { get; set; }
+        public DbSet<HallEquipment> HallEquipmentTypes { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }
 

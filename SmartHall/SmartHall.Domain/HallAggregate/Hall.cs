@@ -1,9 +1,9 @@
 ﻿using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.ValueObjects;
-using SmartHall.Domain.HallEqupmentAggregate;
-using SmartHall.Domain.HallEqupmentAggregate.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,9 @@ namespace SmartHall.Domain.HallAggregate
     public sealed class Hall : AggregateRoot<HallId>
 	{
 		private readonly List<Reservation> _reservations;
-		private List<HallEquipmentTypeId> _equipment;
+		private List<HallEquipment> _equipment;
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipmentTypeId> hallEquipment, List<Reservation> reservations) : base(id)
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment, List<Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
@@ -33,11 +33,11 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IEnumerable<HallEquipmentTypeId> HallEquipment => _equipment;
+		public IReadOnlyCollection<HallEquipment> HallEquipment => _equipment;
 
-		public IEnumerable<Reservation> Reservations => _reservations;
+		public IReadOnlyCollection<Reservation> Reservations => _reservations;
 
-		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipmentTypeId> hallEquipment)
+		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment)
 		{
 			Name = name;
 			Capacity = capacity;

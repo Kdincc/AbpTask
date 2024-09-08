@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.ValueObjects;
-using SmartHall.Domain.HallEqupmentAggregate.ValueObjects;
-using SmartHall.Domain.HallEqupmentAggregateType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,31 +34,16 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			builder.Property(p => p.BaseCost)
 				.HasConversion(cost => cost.Value, value => Cost.Create(value));
 
-			builder.HasMany<HallEquipmentType>()
-				.WithMany("Halls")
-				.UsingEntity<Dictionary<string, object>>
-				(
-					"HallHallEquipment",
-					j => j
-					.HasOne<HallEquipmentType>()
-					.WithMany()
-					.HasForeignKey("HallEquipmentTypeId"),
-
-					j => j
-					.HasOne<Hall>()
-					.WithMany()
-					.HasForeignKey("HallId"),
-
-					j =>
-					{
-						j.HasKey("HallEquipmentTypeId", "HallId");
-					}
-				);
+			builder.HasMany(p => p.HallEquipment)
+				.WithOne()
+				.HasForeignKey(h => h.HallId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasMany(p => p.Reservations)
 				.WithOne()
 				.HasForeignKey(r => r.HallId)
 				.OnDelete(DeleteBehavior.Cascade);
+
 		}
 	}
 }
