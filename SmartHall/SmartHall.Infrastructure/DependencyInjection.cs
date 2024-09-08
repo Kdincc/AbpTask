@@ -18,7 +18,7 @@ namespace SmartHall.Infrastructure
 		{
 			services.AddDbContext<SmartHallDbContext>(options =>
 				options.UseSqlServer(
-					configuration.GetConnectionString("DefaultConnection"),
+					configuration.GetConnectionString("DbString"),
 					b => b.MigrationsAssembly(typeof(SmartHallDbContext).Assembly.FullName)));
 
 			services.AddScoped<IHallRepository, HallRepository>();
