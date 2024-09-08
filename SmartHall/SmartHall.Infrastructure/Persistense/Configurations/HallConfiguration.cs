@@ -56,6 +56,11 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 						j.HasKey("HallEquipmentTypeId", "HallId");
 					}
 				);
+
+			builder.HasMany(p => p.Reservations)
+				.WithOne()
+				.HasForeignKey(r => r.HallId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }
