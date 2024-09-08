@@ -15,14 +15,16 @@ namespace SmartHall.Domain.HallAggregate
     public sealed class Hall : AggregateRoot<HallId>
 	{
 		private readonly List<Reservation> _reservations;
+		private List<HallEquipmentTypeId> _equipment;
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipmentId> hallEquipment, List<Reservation> reservations) : base(id)
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipmentTypeId> hallEquipment, List<Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
 			BaseCost = baseCost;
-			HallEquipment = hallEquipment;
+			_equipment = hallEquipment;
 			_reservations = reservations;
+			_equipment = hallEquipment;
 		}
 
 		public string Name { get; private set; }
@@ -31,16 +33,16 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IReadOnlyCollection<HallEquipmentId> HallEquipment { get; private set; }
+		public IReadOnlyCollection<HallEquipmentTypeId> HallEquipment => _equipment;
 
 		public IReadOnlyCollection<Reservation> Reservations => _reservations;
 
-		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipmentId> hallEquipment)
+		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipmentTypeId> hallEquipment)
 		{
 			Name = name;
 			Capacity = capacity;
 			BaseCost = baseCost;
-			HallEquipment = hallEquipment;
+			_equipment = hallEquipment;
 		}
 
 		public void Reserve(Reservation reservation)

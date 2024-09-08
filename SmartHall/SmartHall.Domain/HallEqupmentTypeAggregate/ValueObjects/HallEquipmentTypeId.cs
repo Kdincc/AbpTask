@@ -2,9 +2,9 @@
 
 namespace SmartHall.Domain.HallEqupmentAggregate.ValueObjects
 {
-	public sealed class HallEquipmentId : ValueObject
+	public sealed class HallEquipmentTypeId : ValueObject
 	{
-        private HallEquipmentId(Guid value)
+        private HallEquipmentTypeId(Guid value)
         {
             Value = value;
         }
@@ -16,8 +16,8 @@ namespace SmartHall.Domain.HallEqupmentAggregate.ValueObjects
 			yield return Value;
 		}
 
-		public static HallEquipmentId CreateUnique() => new(Guid.NewGuid());
+		public static HallEquipmentTypeId CreateUnique() => new(Guid.NewGuid());
 
-		public static HallEquipmentId Create(string value) => new(Guid.Parse(value));
+		public static HallEquipmentTypeId Create(string value) => new(Guid.Parse(value));
 	}
 }
