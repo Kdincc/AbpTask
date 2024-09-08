@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.Common.Services
 {
-	public sealed class HallReservationCostCalculator
+	public sealed class HallReservationCostCalculator : IHallReservationPlanClaculator
 	{
 		public Cost Calculate(Hall hall, Reservation reservation)
 		{
