@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Application.Common.Persistance
 {
-	public interface IRepository<T> where T : class
+	public interface IRepository<T>
 	{
 		public Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
 

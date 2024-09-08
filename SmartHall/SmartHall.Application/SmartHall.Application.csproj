@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHall.Domain\SmartHall.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
