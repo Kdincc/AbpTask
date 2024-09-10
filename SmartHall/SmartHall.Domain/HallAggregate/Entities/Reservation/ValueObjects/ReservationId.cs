@@ -18,7 +18,7 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 
 		public override IEnumerable<object> GetEqualityComponents()
 		{
-			throw new NotImplementedException();
+			yield return Value;
 		}
 
 		public static ReservationId CreateUnique() => new(Guid.NewGuid());
