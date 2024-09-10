@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Halls\GetHall\" />
     <Folder Include="Halls\ReserveHall\" />
-    <Folder Include="Halls\RemoveHall\" />
   </ItemGroup>
 
 </Project>
