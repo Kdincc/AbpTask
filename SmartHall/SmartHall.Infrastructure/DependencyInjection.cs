@@ -22,8 +22,6 @@ namespace SmartHall.Infrastructure
 					b => b.MigrationsAssembly(typeof(SmartHallDbContext).Assembly.FullName)));
 
 			services.AddScoped<IHallRepository, HallRepository>();
-			services.AddScoped<IHallEquipmentTypeRepository, HallEquipmentTypeRepository>();
-			services.AddScoped<IReservationRepository, ReservationsRepository>();
 		}
 	}
 }
