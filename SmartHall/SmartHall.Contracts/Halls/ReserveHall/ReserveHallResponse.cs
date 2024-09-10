@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartHall.Contracts.Halls.Dtos
+namespace SmartHall.Contracts.Halls.ReserveHall
 {
-	public record HallEquipmentDto(Guid Id, string Name, decimal Cost);
+	public record ReserveHallResponse(decimal TotalCost);
 }
