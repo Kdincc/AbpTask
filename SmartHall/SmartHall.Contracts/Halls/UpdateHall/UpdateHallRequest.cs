@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Contracts.Halls.UpdateHall
 {
-	public record UpdateHallRequest(Guid HallId, string Name, decimal BaseCost, List<HallEquipmentDto> HallEquipment);
+	public record UpdateHallRequest(Guid HallId, string Name, decimal BaseCost, int Capacity, List<HallEquipmentDto> HallEquipment);
 }

@@ -12,5 +12,9 @@ namespace SmartHall.Domain.Common.Errors
 		public static Error HallNotFound => Error.NotFound(
 			code: "Hall.NotFound",
 			description: "Hall with that Id not found");
+
+		public static Error HallAlreadyReserved => Error.Conflict(
+			code: "Hall.AlreadyReserved",
+			description: "Hall is already reserved on this time");
 	}
 }

@@ -13,12 +13,12 @@ namespace SmartHall.Application.Services.Halls
 {
     public interface IHallService
     {
-        public Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request);
+        public Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request, CancellationToken cancellationToken);
 
-        public Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request);
+        public Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken);
 
-        public Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request);
+        public Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken);
 
-        public Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request);
+        public Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken);
     }
 }
