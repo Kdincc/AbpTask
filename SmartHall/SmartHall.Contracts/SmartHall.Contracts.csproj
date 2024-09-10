@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Halls\CreateHall\" />
     <Folder Include="Halls\GetHall\" />
     <Folder Include="Halls\ReserveHall\" />
     <Folder Include="Halls\RemoveHall\" />
