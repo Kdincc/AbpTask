@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ErrorOr" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHall.Contracts\SmartHall.Contracts.csproj" />
     <ProjectReference Include="..\SmartHall.Domain\SmartHall.Domain.csproj" />
   </ItemGroup>
 
