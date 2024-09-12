@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using SmartHall.Application.Common.Mapping;
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Application.Halls.ReservationStrategies;
 using SmartHall.Contracts.Halls.CreateHall;
@@ -37,12 +38,7 @@ namespace SmartHall.Application.Halls.Services
         {
             Cost baseCost = Cost.Create(request.BaseHallCost);
             Capacity hallCapacity = Capacity.Create(request.Capacity);
-            List<HallEquipment> hallEquipment = request.Equipment.Select(e =>
-                new HallEquipment(HallEquipmentId.CreateUnique(),
-                e.Name,
-                Cost.Create(e.Cost)))
-                .ToList();
-
+            List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto()).ToList();
 
             Hall hall = new(HallId.CreateUnique(), request.HallName, hallCapacity, baseCost, hallEquipment, []);
 
@@ -68,10 +64,7 @@ namespace SmartHall.Application.Halls.Services
         public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
         {
             Hall hallToReserve = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
-            List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(h =>
-            new HallEquipment(HallEquipmentId.Create(h.Id.ToString()),
-            h.Name,
-            Cost.Create(h.Cost))).ToList();
+            List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
 
             if (hallToReserve is null)
             {
@@ -107,7 +100,7 @@ namespace SmartHall.Application.Halls.Services
 
             var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.Any(r => r.Period.Overlapse(period)));
 
-            return new SearchFreeHallResponse([]);
+            return new SearchFreeHallResponse(matches.Select(m => m.ToDto()).ToList());
 		}
 
 		public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
@@ -121,11 +114,7 @@ namespace SmartHall.Application.Halls.Services
 
             Cost baseCost = Cost.Create(request.BaseCost);
             Capacity hallCapacity = Capacity.Create(request.Capacity);
-            List<HallEquipment> hallEquipment = request.HallEquipment.Select(e =>
-                new HallEquipment(HallEquipmentId.CreateUnique(),
-                e.Name,
-                Cost.Create(e.Cost)))
-                .ToList();
+            List<HallEquipment> hallEquipment = request.HallEquipment.Select(e => e.FromDto()).ToList();
 
             hallToUpdate.Update(request.Name, hallCapacity, baseCost, hallEquipment);
 

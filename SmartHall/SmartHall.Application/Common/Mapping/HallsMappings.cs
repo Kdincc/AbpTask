@@ -1,6 +1,9 @@
-﻿using SmartHall.Contracts.Halls.Dtos;
+﻿using SmartHall.Contracts.Halls.CreateHall;
+using SmartHall.Contracts.Halls.Dtos;
+using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
+using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +22,16 @@ namespace SmartHall.Application.Common.Mapping
 		public static HallEquipmentDto ToDto(this HallEquipment hallEquipment)
 		{
 			return new HallEquipmentDto(hallEquipment.Id.Value, hallEquipment.Name, hallEquipment.Cost.Value);
+		}
+
+		public static HallEquipment FromDto(this HallEquipmentDto hallEquipmentDto)
+		{
+			return new HallEquipment(HallEquipmentId.Create(hallEquipmentDto.Id.ToString()), hallEquipmentDto.Name, Cost.Create(hallEquipmentDto.Cost));
+		}
+
+		public static HallEquipment FromDto(this CreateHallEquipmentDto dto)
+		{
+			return new HallEquipment(HallEquipmentId.CreateUnique(), dto.Name, Cost.Create(dto.Cost));
 		}
 	}
 }
