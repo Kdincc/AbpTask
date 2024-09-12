@@ -66,7 +66,7 @@ namespace SmartHall.Application.Halls.Services
         {
             Hall hallToReserve = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
             List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(h =>
-            new HallEquipment(HallEquipmentId.CreateUnique(),
+            new HallEquipment(HallEquipmentId.Create(h.Id.ToString()),
             h.Name,
             Cost.Create(h.Cost))).ToList();
 
@@ -75,7 +75,12 @@ namespace SmartHall.Application.Halls.Services
                 return HallErrors.HallNotFound;
             }
 
-            ReservationPeriod reservationPeriod = ReservationPeriod.Create(request.ReservationDateTime, request.Duratation);
+			if (!selectedEquipment.SequenceEqual(hallToReserve.AvailableEquipment))
+			{
+				return HallErrors.SelectedHallEquipmentNotAvailable;
+			}
+
+			ReservationPeriod reservationPeriod = ReservationPeriod.Create(request.ReservationDateTime, request.Duratation);
 
             if (hallToReserve.Reservations.Any(r => r.Period.Overlapse(reservationPeriod)))
             {
@@ -84,7 +89,7 @@ namespace SmartHall.Application.Halls.Services
 
             Reservation reservation = new(ReservationId.CreateUnique(), reservationPeriod);
 
-            Cost totalCost = hallToReserve.Reserve(new Reservation(ReservationId.CreateUnique(), reservationPeriod), selectedEquipment, new HallReservationStrategy());
+            Cost totalCost = hallToReserve.Reserve(reservation, selectedEquipment, new HallReservationStrategy());
 
             await _repository.UpdateAsync(hallToReserve, cancellationToken);
 

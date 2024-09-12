@@ -40,7 +40,7 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IReadOnlyCollection<HallEquipment> HallEquipment => _equipment;
+		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _equipment;
 
 		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations;
 
@@ -56,7 +56,7 @@ namespace SmartHall.Domain.HallAggregate
 		{
 			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period)))
 		    {
-				throw new ArgumentException("Reservation period overlapse with another reservation");
+				throw new ArgumentException("Reservation period overlaps with another reservation");
 			}
 
 			_reservations.Add(reservation);

@@ -34,7 +34,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			builder.Property(p => p.BaseCost)
 				.HasConversion(cost => cost.Value, value => Cost.Create(value));
 
-			builder.HasMany(p => p.HallEquipment)
+			builder.HasMany(p => p.AvailableEquipment)
 				.WithOne()
 				.HasForeignKey(h => h.HallId)
 				.OnDelete(DeleteBehavior.Cascade);
