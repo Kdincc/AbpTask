@@ -2,8 +2,11 @@
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Application.Halls.ReservationStrategies;
 using SmartHall.Contracts.Halls.CreateHall;
+using SmartHall.Contracts.Halls.Dtos;
+using SmartHall.Contracts.Halls.GetFreeHall;
 using SmartHall.Contracts.Halls.RemoveHall;
 using SmartHall.Contracts.Halls.ReserveHall;
+using SmartHall.Contracts.Halls.SearchFreeHall;
 using SmartHall.Contracts.Halls.UpdateHall;
 using SmartHall.Domain.Common.Errors;
 using SmartHall.Domain.Common.ValueObjects;
@@ -96,7 +99,18 @@ namespace SmartHall.Application.Halls.Services
             return new ReserveHallResponse(totalCost.Value);
         }
 
-        public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
+		public async Task<ErrorOr<SearchFreeHallResponse>> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
+		{
+            Capacity capacity = Capacity.Create(request.Capacity);
+            ReservationPeriod period = ReservationPeriod.Create(request.DateTime, request.Duratation);
+            IEnumerable<Hall> halls = await _repository.GetAllAsync(cancellationToken);
+
+            var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.Any(r => r.Period.Overlapse(period)));
+
+            return new SearchFreeHallResponse([]);
+		}
+
+		public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
         {
             Hall hallToUpdate = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
 

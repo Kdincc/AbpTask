@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Contracts.Halls.GetFreeHall
 {
-	public record SearchFreeHallRequest(DateOnly Date, TimeSpan StartTime, TimeSpan EndTime, int Capacity);
+	public record SearchFreeHallRequest(DateTime DateTime, TimeSpan Duratation, int Capacity);
 }
