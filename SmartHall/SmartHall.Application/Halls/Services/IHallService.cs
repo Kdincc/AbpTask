@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartHall.Application.Services.Halls
+namespace SmartHall.Application.Halls.Services
 {
     public interface IHallService
     {

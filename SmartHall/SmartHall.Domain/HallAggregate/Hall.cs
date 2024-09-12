@@ -1,4 +1,5 @@
-﻿using SmartHall.Domain.Common.Models;
+﻿using SmartHall.Domain.Common;
+using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
@@ -14,7 +15,7 @@ namespace SmartHall.Domain.HallAggregate
 {
     public sealed class Hall : AggregateRoot<HallId>
 	{
-		private readonly List<Reservation> _reservations;
+		private readonly List<Entities.Reservation.Reservation> _reservations;
 		private List<HallEquipment> _equipment;
 
 		private Hall(HallId id) : base(id)
@@ -23,7 +24,7 @@ namespace SmartHall.Domain.HallAggregate
 			_equipment = [];
 		}
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment, List<Reservation> reservations) : base(id)
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
@@ -41,7 +42,7 @@ namespace SmartHall.Domain.HallAggregate
 
 		public IReadOnlyCollection<HallEquipment> HallEquipment => _equipment;
 
-		public IReadOnlyCollection<Reservation> Reservations => _reservations;
+		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations;
 
 		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment)
 		{
@@ -51,7 +52,7 @@ namespace SmartHall.Domain.HallAggregate
 			_equipment = hallEquipment;
 		}
 
-		public void Reserve(Reservation reservation)
+		public Cost Reserve(Entities.Reservation.Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
 		{
 			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period)))
 		    {
@@ -59,6 +60,8 @@ namespace SmartHall.Domain.HallAggregate
 			}
 
 			_reservations.Add(reservation);
+
+			return reservationStrategy.CalculateCost(this, reservation, selectedEquipment);
 		}
 	}
 }

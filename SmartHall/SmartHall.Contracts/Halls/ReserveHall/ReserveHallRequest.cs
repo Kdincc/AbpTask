@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Contracts.Halls.ReserveHall
 {
-	public record ReserveHallRequest(Guid HallId, DateTime ReservationDateTime, TimeSpan Duratation, List<HallEquipmentDto>);
+	public record ReserveHallRequest(Guid HallId, DateTime ReservationDateTime, TimeSpan Duratation, List<HallEquipmentDto> SelectedEquipment);
 }

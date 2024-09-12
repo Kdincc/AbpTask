@@ -9,7 +9,7 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 {
 	public sealed class ReservationPeriod : ValueObject
 	{
-        private ReservationPeriod(DateTimeOffset start, TimeSpan duratation)
+        private ReservationPeriod(DateTime start, TimeSpan duratation)
         {
             Start = start;
 
@@ -18,9 +18,9 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 			End = start.Add(duratation);
         }
 
-        public DateTimeOffset Start { get; private set; }
+        public DateTime Start { get; private set; }
 
-		public DateTimeOffset End { get; private set; }
+		public DateTime End { get; private set; }
 
 		public TimeSpan Duration { get; private set; }
 
@@ -35,14 +35,14 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 			return Start < period.Start && End > period.End;
 		}
 
-		public static ReservationPeriod Create(DateTimeOffset start, TimeSpan duratation)
+		public static ReservationPeriod Create(DateTime start, TimeSpan duratation)
 		{
 			ValidatePeriod(start, duratation);
 
 			return new ReservationPeriod(start, duratation);
 		}
 
-		private static void ValidatePeriod(DateTimeOffset startDate, TimeSpan duration)
+		private static void ValidatePeriod(DateTime startDate, TimeSpan duration)
 		{
 			var endDate = startDate.Add(duration);
 			var startTime = startDate.TimeOfDay;

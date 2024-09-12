@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Contracts.Halls.CreateHall
 {
-	public record CreateHallRequest(string HallName, int Capacity, List<HallEquipmentDto> Equipment, decimal BaseHallCost);
+	public record CreateHallRequest(string HallName, int Capacity, List<CreateHallEquipmentDto> Equipment, decimal BaseHallCost);
 }

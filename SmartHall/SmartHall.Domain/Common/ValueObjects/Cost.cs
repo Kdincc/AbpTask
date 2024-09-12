@@ -30,5 +30,15 @@ namespace SmartHall.Domain.Common.ValueObjects
 
             return new Cost(value);
         }
+
+        public static Cost operator +(Cost a, Cost b)
+		{
+			return Create(a.Value + b.Value);
+		}
+
+        public static Cost operator *(Cost a, decimal b)
+        {
+            return Create(a.Value * b);
+        }
     }
 }
