@@ -16,5 +16,9 @@ namespace SmartHall.Domain.Common.Errors
 		public static Error HallAlreadyReserved => Error.Conflict(
 			code: "Hall.AlreadyReserved",
 			description: "Hall is already reserved on this time");
+
+		public static Error SelectedHallEquipmentNotAvailable => Error.Conflict(
+			code: "Hall.EquipmentNotAvailable",
+			description: "Selected hall equipment is not available");
 	}
 }
