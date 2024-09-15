@@ -15,6 +15,11 @@ namespace SmartHall.Application.Halls.Validators
             RuleFor(c => c.HallId)
                 .NotEmpty();
 
+            RuleFor(c => c.ReservationDateTime)
+                .NotEmpty();
+
+            RuleFor(c => c.Duratation)
+                .NotEmpty();
         }
     }
 }

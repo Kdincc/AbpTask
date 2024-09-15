@@ -14,7 +14,7 @@ namespace SmartHall.Infrastructure
 {
 	public static class DependencyInjection
 	{
-		public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<SmartHallDbContext>(options =>
 				options.UseSqlServer(
@@ -22,6 +22,10 @@ namespace SmartHall.Infrastructure
 					b => b.MigrationsAssembly(typeof(SmartHallDbContext).Assembly.FullName)));
 
 			services.AddScoped<IHallRepository, HallRepository>();
+
+			services.AddSingleton(TimeProvider.System);
+
+			return services;
 		}
 	}
 }
