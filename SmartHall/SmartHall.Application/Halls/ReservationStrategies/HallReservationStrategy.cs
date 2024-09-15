@@ -14,7 +14,7 @@ namespace SmartHall.Application.Halls.ReservationStrategies
 {
 	public sealed class HallReservationStrategy : IHallReservationStrategy
 	{
-		private readonly Dictionary<Func<TimeSpan, bool>, Func<Cost, Cost>> plansHandlings = new()
+		private readonly Dictionary<Func<TimeSpan, bool>, Func<Cost, Cost>> _planHandlers = new()
 		{
 			{ ReservationPlans.PeakPlan.IsWithin, cost => cost * ReservationPlans.PeakPlan.Modyfier },
 			{ ReservationPlans.MorningPlan.IsWithin, cost => cost * ReservationPlans.MorningPlan.Modyfier },
@@ -38,7 +38,7 @@ namespace SmartHall.Application.Halls.ReservationStrategies
 
 			while (current < end)
 			{
-				var planHandler = plansHandlings.First(x => x.Key(current.TimeOfDay)).Value;
+				var planHandler = _planHandlers.First(x => x.Key(current.TimeOfDay)).Value;
 
 				totalCost += planHandler(hourlyCost);
 

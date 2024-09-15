@@ -98,7 +98,7 @@ namespace SmartHall.Application.Halls.Services
             ReservationPeriod period = ReservationPeriod.Create(request.DateTime, request.Duratation);
             IEnumerable<Hall> halls = await _repository.GetAllAsync(cancellationToken);
 
-            var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.Any(r => r.Period.Overlapse(period)));
+            var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.All(r => !r.Period.Overlapse(period)));
 
             return new SearchFreeHallResponse(matches.Select(m => m.ToDto()).ToList());
 		}
