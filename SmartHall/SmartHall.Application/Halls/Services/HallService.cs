@@ -38,9 +38,10 @@ namespace SmartHall.Application.Halls.Services
         {
             Cost baseCost = Cost.Create(request.BaseHallCost);
             Capacity hallCapacity = Capacity.Create(request.Capacity);
-            List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto()).ToList();
+            HallId id = HallId.CreateUnique();
+            List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto(id)).ToList();
 
-            Hall newHall = new(HallId.CreateUnique(), request.HallName, hallCapacity, baseCost, hallEquipment, []);
+            Hall newHall = new(id, request.HallName, hallCapacity, baseCost, hallEquipment, []);
 
             var halls = await _repository.GetAllWithEquipment(cancellationToken);
 
@@ -54,7 +55,7 @@ namespace SmartHall.Application.Halls.Services
             return new CreateHallResponse(newHall.Id.Value);
         }
 
-        public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
+		public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
         {
             Hall hallToDelete = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
 
@@ -90,7 +91,7 @@ namespace SmartHall.Application.Halls.Services
                 return HallErrors.HallAlreadyReserved;
             }
 
-            Reservation reservation = new(ReservationId.CreateUnique(), reservationPeriod);
+            Reservation reservation = new(ReservationId.CreateUnique(), reservationPeriod, HallId.Create(request.HallId.ToString()));
 
             Cost totalCost = hallToReserve.Reserve(reservation, selectedEquipment, new HallReservationStrategy());
 
@@ -121,7 +122,7 @@ namespace SmartHall.Application.Halls.Services
 
             Cost baseCost = Cost.Create(request.BaseCost);
             Capacity hallCapacity = Capacity.Create(request.Capacity);
-            List<HallEquipment> hallEquipment = request.HallEquipment.Select(e => e.FromDto()).ToList();
+            List<HallEquipment> hallEquipment = request.HallEquipment.Select(e => e.FromDto(hallToUpdate.Id)).ToList();
 
             hallToUpdate.Update(request.Name, hallCapacity, baseCost, hallEquipment);
 

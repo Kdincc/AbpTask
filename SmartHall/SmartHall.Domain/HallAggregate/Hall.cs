@@ -17,22 +17,19 @@ namespace SmartHall.Domain.HallAggregate
     public sealed class Hall : AggregateRoot<HallId>
 	{
 		private readonly List<Entities.Reservation.Reservation> _reservations;
-		private List<HallEquipment> _equipment;
+		private List<HallEquipment> _availableEquipment ;
 
-		private Hall(HallId id) : base(id)
+		private Hall() : base()
 		{
-			_reservations = [];
-			_equipment = [];
 		}
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
+		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
 			BaseCost = baseCost;
-			_equipment = hallEquipment;
+			_availableEquipment = availableEquipment;
 			_reservations = reservations;
-			_equipment = hallEquipment;
 		}
 
 		public string Name { get; private set; }
@@ -41,16 +38,16 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _equipment;
+		public List<HallEquipment> AvailableEquipment => _availableEquipment;
 
-		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations;
+		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations.AsReadOnly();
 
 		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment)
 		{
 			Name = name;
 			Capacity = capacity;
 			BaseCost = baseCost;
-			_equipment = hallEquipment;
+			_availableEquipment = hallEquipment;
 		}
 
 		public Cost Reserve(Entities.Reservation.Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
@@ -67,14 +64,14 @@ namespace SmartHall.Domain.HallAggregate
 
 		public bool IsSameAs(Hall hall)
 		{
-			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && HasSameEquipment(hall._equipment);
+			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && HasSameEquipment(hall._availableEquipment);
 		}
 
 		public bool HasSameEquipment(List<HallEquipment> equipment)
 		{
 			var comparer = new HallEquipmentComparer();
 
-			bool areEqual = new HashSet<HallEquipment>(_equipment, comparer).SetEquals(new HashSet<HallEquipment>(equipment, comparer));
+			bool areEqual = new HashSet<HallEquipment>(_availableEquipment, comparer).SetEquals(new HashSet<HallEquipment>(equipment, comparer));
 
 			return areEqual;
 		}

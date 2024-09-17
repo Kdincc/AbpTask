@@ -5,6 +5,7 @@ using SmartHall.Contracts.Halls.RemoveHall;
 using SmartHall.Contracts.Halls.ReserveHall;
 using SmartHall.Contracts.Halls.SearchFreeHall;
 using SmartHall.Contracts.Halls.UpdateHall;
+using SmartHall.Domain.HallAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

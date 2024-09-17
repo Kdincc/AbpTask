@@ -37,12 +37,12 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 
 		public async Task<IEnumerable<Hall>> GetAllAsync(CancellationToken cancellationToken)
 		{
-			return await _dbContext.Halls.ToListAsync(cancellationToken);
+			return await _dbContext.Halls.AsNoTracking().ToListAsync(cancellationToken);
 		}
 
 		public async Task<IEnumerable<Hall>> GetAllWithEquipment(CancellationToken cancellationToken)
 		{
-			return await _dbContext.Halls.Include(e => e.AvailableEquipment).ToListAsync(cancellationToken);
+			return await _dbContext.Halls.Include(e => e.AvailableEquipment).AsNoTracking().ToListAsync(cancellationToken);
 		}
 
 		public Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken)

@@ -8,6 +8,11 @@ namespace SmartHall.Domain.Common.Models
 {
 	public abstract class Entity<TId> : IEquatable<Entity<TId>>	where TId : notnull, ValueObject
 	{
+		protected Entity()
+		{
+
+		}
+
         protected Entity(TId id)
         {
             Id = id;

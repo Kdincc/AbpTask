@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Contracts.Halls.Dtos
 {
-	public record HallEquipmentDto(Guid Id, string Name, decimal Cost);
+	public record HallEquipmentDto(Guid Id, string Name, decimal Cost, Guid HallId);
 }

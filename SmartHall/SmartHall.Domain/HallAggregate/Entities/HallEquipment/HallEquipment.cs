@@ -12,10 +12,15 @@ namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 {
     public sealed class HallEquipment : AggregateRoot<ValueObjects.HallEquipmentId>
     {
-        public HallEquipment(ValueObjects.HallEquipmentId id, string name, Cost cost) : base(id)
+        private HallEquipment() : base() 
+        { 
+        }
+
+        public HallEquipment(ValueObjects.HallEquipmentId id, string name, Cost cost, HallId hallId) : base(id)
         {
             Name = name;
             Cost = cost;
+            HallId = hallId;
         }
 
         public string Name { get; private set; }
