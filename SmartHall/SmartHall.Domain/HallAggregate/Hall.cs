@@ -38,7 +38,7 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public List<HallEquipment> AvailableEquipment => _availableEquipment;
+		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _availableEquipment;
 
 		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations.AsReadOnly();
 
@@ -71,7 +71,7 @@ namespace SmartHall.Domain.HallAggregate
 		{
 			var comparer = new HallEquipmentComparer();
 
-			bool areEqual = new HashSet<HallEquipment>(_availableEquipment, comparer).SetEquals(new HashSet<HallEquipment>(equipment, comparer));
+			bool areEqual = equipment.SequenceEqual(_availableEquipment, comparer);
 
 			return areEqual;
 		}
