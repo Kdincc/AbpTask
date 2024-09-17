@@ -40,11 +40,18 @@ namespace SmartHall.Application.Halls.Services
             Capacity hallCapacity = Capacity.Create(request.Capacity);
             List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto()).ToList();
 
-            Hall hall = new(HallId.CreateUnique(), request.HallName, hallCapacity, baseCost, hallEquipment, []);
+            Hall newHall = new(HallId.CreateUnique(), request.HallName, hallCapacity, baseCost, hallEquipment, []);
 
-            await _repository.AddAsync(hall, cancellationToken);
+            var halls = await _repository.GetAllAsync(cancellationToken);
 
-            return new CreateHallResponse(hall.Id.Value);
+            if (halls.Any(h => h.IsSameAs(newHall)))
+			{
+				return HallErrors.Dublication;
+			}
+
+            await _repository.AddAsync(newHall, cancellationToken);
+
+            return new CreateHallResponse(newHall.Id.Value);
         }
 
         public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)

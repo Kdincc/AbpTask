@@ -50,7 +50,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			private static ReservationPeriod ConvertFromString(string str)
 			{
 				var parts = str.Split(',');
-				var start = DateTimeOffset.Parse(parts[0]);
+				var start = DateTime.Parse(parts[0]);
 				var duration = TimeSpan.FromHours(double.Parse(parts[1]));
 				return ReservationPeriod.Create(start, duration);
 			}

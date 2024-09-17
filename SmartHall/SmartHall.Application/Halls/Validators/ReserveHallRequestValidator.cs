@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SmartHall.Contracts.Halls.Dtos;
 using SmartHall.Contracts.Halls.ReserveHall;
 using SmartHall.Domain.Common.Constanst;
 using System;
@@ -11,8 +12,12 @@ namespace SmartHall.Application.Halls.Validators
 {
     public sealed class ReserveHallRequestValidator : AbstractValidator<ReserveHallRequest>
     {
-        public ReserveHallRequestValidator(TimeProvider timeProvider)
+        private readonly IValidator<HallEquipmentDto> _equipmentValidator;
+
+        public ReserveHallRequestValidator(TimeProvider timeProvider, IValidator<HallEquipmentDto> equipmentValidator)
         {
+            _equipmentValidator = equipmentValidator;
+
             RuleFor(request => request)
                 .Must(BeWithinOneDay)
 				.WithMessage("Reservation must be within one day");
@@ -30,7 +35,26 @@ namespace SmartHall.Application.Halls.Validators
             RuleFor(c => c.Duratation)
                 .NotEmpty()
                 .GreaterThan(TimeSpan.Zero);
+
+            RuleFor(c => c.SelectedEquipment)
+                .Must(ValidateHallEquipment)
+                .WithMessage("One or more equipments not valid");
         }
+
+        private bool ValidateHallEquipment(List<HallEquipmentDto> equipmentDtos)
+		{
+			foreach (var equipment in equipmentDtos)
+			{
+				var validationResult = _equipmentValidator.Validate(equipment);
+
+				if (!validationResult.IsValid)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 
         private bool BeWithinOneDay(ReserveHallRequest request)
         {

@@ -22,7 +22,6 @@ namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 
         public Cost Cost { get; private set; }
 
-
         public HallId HallId { get; private set; }
     }
 }
