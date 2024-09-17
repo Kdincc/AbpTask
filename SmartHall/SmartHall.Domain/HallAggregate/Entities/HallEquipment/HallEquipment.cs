@@ -23,5 +23,10 @@ namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
         public Cost Cost { get; private set; }
 
         public HallId HallId { get; private set; }
+
+        public bool IsSameAs(HallEquipment equipment)
+		{
+			return Name == equipment.Name && Cost == equipment.Cost;
+		}
     }
 }
