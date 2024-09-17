@@ -63,5 +63,10 @@ namespace SmartHall.Domain.HallAggregate
 
 			return reservationStrategy.CalculateCost(this, reservation, selectedEquipment);
 		}
+
+		public bool IsSameAs(Hall hall)
+		{
+			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && _equipment.SequenceEqual(hall.AvailableEquipment);
+		}
 	}
 }
