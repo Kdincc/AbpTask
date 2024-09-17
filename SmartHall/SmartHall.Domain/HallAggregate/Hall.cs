@@ -1,4 +1,5 @@
 ﻿using SmartHall.Domain.Common;
+using SmartHall.Domain.Common.Comparers;
 using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
@@ -66,7 +67,16 @@ namespace SmartHall.Domain.HallAggregate
 
 		public bool IsSameAs(Hall hall)
 		{
-			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && _equipment.SequenceEqual(hall.AvailableEquipment);
+			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && HasSameEquipment(hall._equipment);
+		}
+
+		public bool HasSameEquipment(List<HallEquipment> equipment)
+		{
+			var comparer = new HallEquipmentComparer();
+
+			bool areEqual = new HashSet<HallEquipment>(_equipment, comparer).SetEquals(new HashSet<HallEquipment>(equipment, comparer));
+
+			return areEqual;
 		}
 	}
 }

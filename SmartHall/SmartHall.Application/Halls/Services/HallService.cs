@@ -125,6 +125,13 @@ namespace SmartHall.Application.Halls.Services
 
             hallToUpdate.Update(request.Name, hallCapacity, baseCost, hallEquipment);
 
+            var halls = await _repository.GetAllAsync(cancellationToken);
+
+            if (halls.Any(h => h.IsSameAs(hallToUpdate)))
+			{
+				return HallErrors.Dublication;
+			}
+
             await _repository.UpdateAsync(hallToUpdate, cancellationToken);
 
             return new UpdateHallResponse(hallToUpdate.Id.Value);
