@@ -11,5 +11,7 @@ namespace SmartHall.Application.Common.Persistance
 	public interface IHallRepository : IRepository<Hall>
 	{
 		public Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken);
+
+		public Task<IEnumerable<Hall>> GetAllWithEquipment(CancellationToken cancellationToken);
 	}
 }

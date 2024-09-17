@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Infrastructure.Persistense.Configurations
 {
-    public sealed class HallEquipmentTypeConfiguration : IEntityTypeConfiguration<Domain.HallAggregate.Entities.HallEquipment.HallEquipment>
+    public sealed class HallEquipmentConfiguration : IEntityTypeConfiguration<Domain.HallAggregate.Entities.HallEquipment.HallEquipment>
 	{
 		public void Configure(EntityTypeBuilder<Domain.HallAggregate.Entities.HallEquipment.HallEquipment> builder)
 		{
-			builder.ToTable("HallEquipmentTypes");
+			builder.ToTable("HallEquipment");
 
 			builder.HasKey(p => p.Id);
 
@@ -35,6 +35,10 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 
 			builder.Property(p => p.HallId)
 				.HasConversion(id => id.Value, value => HallId.Create(value.ToString()));
+
+			builder.HasOne<Hall>()
+			.WithMany(h => h.AvailableEquipment)
+			.HasForeignKey(p => p.HallId);
 		}
 	}
 }

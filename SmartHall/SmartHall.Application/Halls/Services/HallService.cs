@@ -42,7 +42,7 @@ namespace SmartHall.Application.Halls.Services
 
             Hall newHall = new(HallId.CreateUnique(), request.HallName, hallCapacity, baseCost, hallEquipment, []);
 
-            var halls = await _repository.GetAllAsync(cancellationToken);
+            var halls = await _repository.GetAllWithEquipment(cancellationToken);
 
             if (halls.Any(h => h.IsSameAs(newHall)))
 			{

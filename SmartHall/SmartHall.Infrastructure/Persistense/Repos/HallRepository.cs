@@ -40,6 +40,11 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 			return await _dbContext.Halls.ToListAsync(cancellationToken);
 		}
 
+		public async Task<IEnumerable<Hall>> GetAllWithEquipment(CancellationToken cancellationToken)
+		{
+			return await _dbContext.Halls.Include(e => e.AvailableEquipment).ToListAsync(cancellationToken);
+		}
+
 		public Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken)
 		{
 			var hall = _dbContext.Halls.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
