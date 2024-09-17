@@ -73,6 +73,7 @@ namespace SmartHall.Application.Halls.Services
         {
             Hall hallToReserve = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
             List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
+            TimeSpan duratation = TimeSpan.FromHours(request.Hours);
 
             if (hallToReserve is null)
             {
@@ -84,7 +85,7 @@ namespace SmartHall.Application.Halls.Services
 				return HallErrors.SelectedHallEquipmentNotAvailable;
 			}
 
-			ReservationPeriod reservationPeriod = ReservationPeriod.Create(request.ReservationDateTime, request.Duratation);
+			ReservationPeriod reservationPeriod = ReservationPeriod.Create(request.ReservationDateTime, duratation);
 
             if (hallToReserve.Reservations.Any(r => r.Period.Overlapse(reservationPeriod)))
             {
@@ -102,8 +103,9 @@ namespace SmartHall.Application.Halls.Services
 
 		public async Task<ErrorOr<SearchFreeHallResponse>> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
 		{
+            TimeSpan duratation = TimeSpan.FromHours(request.Hours);
             Capacity capacity = Capacity.Create(request.Capacity);
-            ReservationPeriod period = ReservationPeriod.Create(request.DateTime, request.Duratation);
+            ReservationPeriod period = ReservationPeriod.Create(request.DateTime, duratation);
             IEnumerable<Hall> halls = await _repository.GetAllAsync(cancellationToken);
 
             var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.All(r => !r.Period.Overlapse(period)));

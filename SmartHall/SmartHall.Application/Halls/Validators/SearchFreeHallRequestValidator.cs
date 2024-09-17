@@ -25,9 +25,9 @@ namespace SmartHall.Application.Halls.Validators
 				.Must(c => c.TimeOfDay >= BusinessHours.OpenTime && c.TimeOfDay <= BusinessHours.CloseTime)
 				.WithMessage("Reservation time must be in range 06:00 - 23:00");
 
-			RuleFor(c => c.Duratation)
+			RuleFor(c => c.Hours)
 				.NotEmpty()
-				.GreaterThan(TimeSpan.Zero);
+				.GreaterThan(0);
 
 			RuleFor(c => c.Capacity)
 				.NotEmpty()
@@ -37,7 +37,7 @@ namespace SmartHall.Application.Halls.Validators
 		private bool BeWithinOneDay(SearchFreeHallRequest request)
 		{
 			DateTime start = request.DateTime;
-			DateTime end = start.Add(request.Duratation);
+			DateTime end = start.Add(TimeSpan.FromHours(request.Hours));
 
 			return start.Date == end.Date;
 		}
