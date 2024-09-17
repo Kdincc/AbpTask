@@ -1,4 +1,5 @@
 
+using SmartHall.Application;
 using SmartHall.Infrastructure;
 
 namespace SmartHall
@@ -9,11 +10,10 @@ namespace SmartHall
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			builder.Services.AddInfrastructure(builder.Configuration);
-
-			builder.Services.AddControllers();
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.Services
+				.AddInfrastructure(builder.Configuration)
+				.AddApplication()
+				.AddPresentation();
 
 			var app = builder.Build();
 
@@ -26,7 +26,6 @@ namespace SmartHall
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 

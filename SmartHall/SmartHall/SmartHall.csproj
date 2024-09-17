@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartHall.Application\SmartHall.Application.csproj" />
+    <ProjectReference Include="..\SmartHall.Contracts\SmartHall.Contracts.csproj" />
     <ProjectReference Include="..\SmartHall.Infrastructure\SmartHall.Infrastructure.csproj" />
   </ItemGroup>
 
