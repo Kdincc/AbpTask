@@ -5,6 +5,7 @@ using SmartHall.Domain.Common.Constanst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,12 +26,14 @@ namespace SmartHall.Application.Halls.Validators
             RuleFor(c => c.HallId)
                 .NotEmpty();
 
-            RuleFor(c => c.ReservationDateTime)
-                .NotEmpty()
-                .Must(c => c >= timeProvider.GetUtcNow())
-                .WithMessage("Reservation date time must be in the future")
-                .Must(c => c.TimeOfDay >= BusinessHours.OpenTime && c.TimeOfDay <= BusinessHours.CloseTime)
-                .WithMessage("Reservation time must be in range 06:00 - 23:00");
+			RuleFor(c => c.ReservationDateTime)
+				.NotEmpty()
+				.Must(c => c >= timeProvider.GetUtcNow())
+				.WithMessage("Reservation date time must be in the future");
+
+			RuleFor(request => request)
+				.Must(ValidateReservationTime)
+				.WithMessage("Reservation time invalid. Reservation must be in range 6:00 - 23:00 and reservation must be in one calendar day");
 
             RuleFor(c => c.Hours)
                 .NotEmpty()
@@ -40,6 +43,29 @@ namespace SmartHall.Application.Halls.Validators
                 .Must(ValidateHallEquipment)
                 .WithMessage("One or more equipments not valid");
         }
+
+        private bool ValidateReservationTime(ReserveHallRequest reserveHall)
+		{
+			DateTime startDate = reserveHall.ReservationDateTime;
+            DateTime endDate = reserveHall.ReservationDateTime.Add(TimeSpan.FromHours(reserveHall.Hours));
+
+			if (startDate.TimeOfDay < BusinessHours.OpenTime || endDate.TimeOfDay > BusinessHours.CloseTime)
+			{
+				return false;
+			}
+
+			if (endDate <= startDate)
+			{
+				return false;
+			}
+
+			if (startDate.Date != endDate.Date)
+			{
+				return false;
+			}
+
+			return true;
+		}
 
         private bool ValidateHallEquipment(List<HallEquipmentDto> equipmentDtos)
 		{

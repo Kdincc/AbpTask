@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using SmartHall.Contracts.Halls.GetFreeHall;
+using SmartHall.Contracts.Halls.ReserveHall;
 using SmartHall.Domain.Common.Constanst;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,11 @@ namespace SmartHall.Application.Halls.Validators
 			RuleFor(c => c.DateTime)
 				.NotEmpty()
 				.Must(c => c >= timeProvider.GetUtcNow())
-				.WithMessage("Reservation date time must be in the future")
-				.Must(c => c.TimeOfDay >= BusinessHours.OpenTime && c.TimeOfDay <= BusinessHours.CloseTime)
-				.WithMessage("Reservation time must be in range 06:00 - 23:00");
+				.WithMessage("Reservation date time must be in the future");
+
+			RuleFor(request => request)
+				.Must(ValidateReservationTime)
+				.WithMessage("Reservation time invalid. Reservation must be in range 6:00 - 23:00 and reservation must be in one calendar day");
 
 			RuleFor(c => c.Hours)
 				.NotEmpty()
@@ -32,6 +35,29 @@ namespace SmartHall.Application.Halls.Validators
 			RuleFor(c => c.Capacity)
 				.NotEmpty()
 				.GreaterThan(0);
+		}
+
+		private bool ValidateReservationTime(SearchFreeHallRequest reserveHall)
+		{
+			DateTime startDate = reserveHall.DateTime;
+			DateTime endDate = reserveHall.DateTime.Add(TimeSpan.FromHours(reserveHall.Hours));
+
+			if (startDate.TimeOfDay < BusinessHours.OpenTime || endDate.TimeOfDay > BusinessHours.CloseTime)
+			{
+				return false;
+			}
+
+			if (endDate <= startDate)
+			{
+				return false;
+			}
+
+			if (startDate.Date != endDate.Date)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		private bool BeWithinOneDay(SearchFreeHallRequest request)
