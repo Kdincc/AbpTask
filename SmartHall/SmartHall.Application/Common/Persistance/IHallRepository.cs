@@ -13,5 +13,7 @@ namespace SmartHall.Application.Common.Persistance
 		public Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken);
 
 		public Task<IEnumerable<Hall>> GetAllWithEquipment(CancellationToken cancellationToken);
+
+		public Task<Hall> GetByIdWithEquipmentAndReservations(HallId id, CancellationToken cancellationToken);
 	}
 }

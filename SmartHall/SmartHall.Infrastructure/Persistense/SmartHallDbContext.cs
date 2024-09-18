@@ -18,9 +18,6 @@ namespace SmartHall.Infrastructure.Persistense
 
         public DbSet<Hall> Halls { get; set; }
 
-        public DbSet<HallEquipment> HallEquipment { get; set; }
-
-        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

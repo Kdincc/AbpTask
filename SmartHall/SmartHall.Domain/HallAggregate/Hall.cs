@@ -21,6 +21,8 @@ namespace SmartHall.Domain.HallAggregate
 
 		private Hall() : base()
 		{
+			_reservations = new List<Entities.Reservation.Reservation>();
+			_availableEquipment = new List<HallEquipment>();
 		}
 
 		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
@@ -30,6 +32,8 @@ namespace SmartHall.Domain.HallAggregate
 			BaseCost = baseCost;
 			_availableEquipment = availableEquipment;
 			_reservations = reservations;
+			_availableEquipment = availableEquipment ?? new List<HallEquipment>();
+			_reservations = reservations ?? new List<Entities.Reservation.Reservation>();
 		}
 
 		public string Name { get; private set; }
@@ -38,7 +42,7 @@ namespace SmartHall.Domain.HallAggregate
 
 		public Cost BaseCost { get; private set; }
 
-		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _availableEquipment;
+		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _availableEquipment.AsReadOnly();
 
 		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations.AsReadOnly();
 

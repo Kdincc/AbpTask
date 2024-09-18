@@ -37,6 +37,9 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			builder.Property(p => p.BaseCost)
 				.HasConversion(cost => cost.Value, value => Cost.Create(value));
 
+			builder.Metadata.FindNavigation(nameof(Hall.AvailableEquipment)).SetPropertyAccessMode(PropertyAccessMode.Field);
+			builder.Metadata.FindNavigation(nameof(Hall.Reservations)).SetPropertyAccessMode(PropertyAccessMode.Field);
+
 			ConfigureEquipment(builder);
 			ConfigureReservation(builder);
 		}
@@ -49,7 +52,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 
 				builder.WithOwner().HasForeignKey("HallId");
 
-				builder.HasKey("Id", "HallId");
+				builder.HasKey(p => p.Id);
 
 				builder.Property(p => p.Id)
 					.ValueGeneratedNever()
@@ -73,7 +76,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 
 				builder.WithOwner().HasForeignKey("HallId");
 
-				builder.HasKey("Id", "HallId");
+				builder.HasKey(p => p.Id);
 
 				builder.Property(p => p.Id)
 					.ValueGeneratedNever()
@@ -106,7 +109,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 
 			private static string ConvertToString(ReservationPeriod period)
 			{
-				return $"{period.Start:O},{period.Duration.TotalHours}";
+				return $"{period.Start},{period.Duration.TotalHours}";
 			}
 
 			private static ReservationPeriod ConvertFromString(string str)

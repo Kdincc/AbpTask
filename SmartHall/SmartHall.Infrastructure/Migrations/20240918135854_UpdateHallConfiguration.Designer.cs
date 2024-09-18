@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartHall.Infrastructure.Persistense;
 
@@ -11,9 +12,11 @@ using SmartHall.Infrastructure.Persistense;
 namespace SmartHall.Infrastructure.Migrations
 {
     [DbContext(typeof(SmartHallDbContext))]
-    partial class SmartHallDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240918135854_UpdateHallConfiguration")]
+    partial class UpdateHallConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

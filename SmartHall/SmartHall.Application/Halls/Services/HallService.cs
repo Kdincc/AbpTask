@@ -71,7 +71,7 @@ namespace SmartHall.Application.Halls.Services
 
         public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
         {
-            Hall hallToReserve = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
+            Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(HallId.Create(request.HallId.ToString()), cancellationToken);
             List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
             TimeSpan duratation = TimeSpan.FromHours(request.Hours);
 
