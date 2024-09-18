@@ -32,8 +32,6 @@ namespace SmartHall.Domain.HallAggregate
 			BaseCost = baseCost;
 			_availableEquipment = availableEquipment;
 			_reservations = reservations;
-			_availableEquipment = availableEquipment ?? new List<HallEquipment>();
-			_reservations = reservations ?? new List<Entities.Reservation.Reservation>();
 		}
 
 		public string Name { get; private set; }
