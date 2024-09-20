@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
-using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using System;
@@ -24,7 +23,7 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 
 			builder.Property(p => p.Id)
 				.ValueGeneratedNever()
-				.HasConversion(id => id.Value, value => HallId.Create(value.ToString()));
+				.IsRequired();
 
 			builder.Property(p => p.Name)
 				.HasMaxLength(100)
@@ -50,13 +49,16 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			{
 				builder.ToTable("Reservations");
 
-				builder.WithOwner().HasForeignKey("HallId");
+				builder.WithOwner().HasForeignKey(p => p.HallId);
+
+				builder.Property(p => p.HallId)
+					   .IsRequired();
 
 				builder.HasKey(p => p.Id);
 
 				builder.Property(p => p.Id)
 					.ValueGeneratedNever()
-					.HasConversion(id => id.Value, value => ReservationId.Create(value.ToString()));
+					.IsRequired();
 
 				builder.Property(x => x.Period)
 				.HasConversion(new ReservationPeriodConverter())
@@ -74,13 +76,13 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 			{
 				builder.ToTable("HallEquipment");
 
-				builder.WithOwner().HasForeignKey("HallId");
+				builder.WithOwner().HasForeignKey(p => p.HallId);
 
 				builder.HasKey(p => p.Id);
 
 				builder.Property(p => p.Id)
 					.ValueGeneratedNever()
-					.HasConversion(id => id.Value, value => HallEquipmentId.Create(value.ToString()));
+					.IsRequired();
 
 				builder.Property(p => p.Name)
 					.HasMaxLength(100)
@@ -91,7 +93,8 @@ namespace SmartHall.Infrastructure.Persistense.Configurations
 					.IsRequired();
 
 				builder.Property(p => p.HallId)
-					.HasConversion(id => id.Value, value => HallId.Create(value.ToString()));
+					   .IsRequired();
+
 			});
 
 			builder.Navigation(p => p.AvailableEquipment).Metadata.SetField("_availableEquipment");

@@ -13,7 +13,6 @@ using SmartHall.Domain.Common.Errors;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
-using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
@@ -38,7 +37,7 @@ namespace SmartHall.Application.Halls.Services
         {
             Cost baseCost = Cost.Create(request.BaseHallCost);
             Capacity hallCapacity = Capacity.Create(request.Capacity);
-            HallId id = HallId.CreateUnique();
+            Guid id = Guid.NewGuid();
             List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto(id)).ToList();
 
             Hall newHall = new(id, request.HallName, hallCapacity, baseCost, hallEquipment, []);
@@ -52,12 +51,12 @@ namespace SmartHall.Application.Halls.Services
 
             await _repository.AddAsync(newHall, cancellationToken);
 
-            return new CreateHallResponse(newHall.Id.Value);
+            return new CreateHallResponse(newHall.Id);
         }
 
 		public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
         {
-            Hall hallToDelete = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
+            Hall hallToDelete = await _repository.GetByIdAsync(request.HallId, cancellationToken);
 
             if (hallToDelete is null)
             {
@@ -66,12 +65,12 @@ namespace SmartHall.Application.Halls.Services
 
             await _repository.DeleteAsync(hallToDelete, cancellationToken);
 
-            return new RemoveHallResponse(hallToDelete.Id.Value);
+            return new RemoveHallResponse(hallToDelete.Id);
         }
 
         public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
         {
-            Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(HallId.Create(request.HallId.ToString()), cancellationToken);
+            Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(request.HallId, cancellationToken);
             List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
             TimeSpan duratation = TimeSpan.FromHours(request.Hours);
 
@@ -92,7 +91,7 @@ namespace SmartHall.Application.Halls.Services
                 return HallErrors.HallAlreadyReserved;
             }
 
-            Reservation reservation = new(ReservationId.CreateUnique(), reservationPeriod, HallId.Create(request.HallId.ToString()));
+            Reservation reservation = new(Guid.NewGuid(), reservationPeriod, request.HallId);
 
             Cost totalCost = hallToReserve.Reserve(reservation, selectedEquipment, new HallReservationStrategy());
 
@@ -115,7 +114,7 @@ namespace SmartHall.Application.Halls.Services
 
 		public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
         {
-            Hall hallToUpdate = await _repository.GetByIdAsync(HallId.Create(request.HallId.ToString()), cancellationToken);
+            Hall hallToUpdate = await _repository.GetByIdAsync(request.HallId, cancellationToken);
 
             if (hallToUpdate is null)
             {
@@ -137,7 +136,7 @@ namespace SmartHall.Application.Halls.Services
 
             await _repository.UpdateAsync(hallToUpdate, cancellationToken);
 
-            return new UpdateHallResponse(hallToUpdate.Id.Value);
+            return new UpdateHallResponse(hallToUpdate.Id);
         }
     }
 }

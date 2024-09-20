@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.Common.Models
 {
-	public abstract class Entity<TId> : IEquatable<Entity<TId>>	where TId : notnull, ValueObject
+	public abstract class Entity<TId> : IEquatable<Entity<TId>>	where TId : notnull
 	{
 		protected Entity()
 		{

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate.Entities.Reservation
 {
-	public sealed class Reservation : Entity<ReservationId>
+	public sealed class Reservation : Entity<Guid>
 	{
 		private Reservation() : base()
 		{
 		}
 
-		public Reservation(ReservationId id, ReservationPeriod period, HallId hallId) : base(id)
+		public Reservation(Guid id, ReservationPeriod period, Guid hallId) : base(id)
 		{
 			Period = period;
 			HallId = hallId;
@@ -23,6 +23,6 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation
 
 		public ReservationPeriod Period { get; private set; }
 
-		public HallId HallId { get; private set; }
+		public Guid HallId { get; private set; }
 	}
 }

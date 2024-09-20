@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.Common.Models
 {
-	public abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull, ValueObject
+	public abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull
 	{
 		protected AggregateRoot(TId id) : base(id)
 		{

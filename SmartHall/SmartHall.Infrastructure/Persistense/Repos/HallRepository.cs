@@ -45,14 +45,14 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 			return await _dbContext.Halls.Include(e => e.AvailableEquipment).ToListAsync(cancellationToken);
 		}
 
-		public async Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken)
+		public async Task<Hall> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 		{
 			var hall = await _dbContext.Halls.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
 			return hall;
 		}
 
-		public async Task<Hall> GetByIdWithEquipmentAndReservations(HallId id, CancellationToken cancellationToken)
+		public async Task<Hall> GetByIdWithEquipmentAndReservations(Guid id, CancellationToken cancellationToken)
 		{
 			var hall = await _dbContext.Halls
 				.Include(h => h.AvailableEquipment)

@@ -1,6 +1,5 @@
 ﻿using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
-using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 {
-    public sealed class HallEquipment : AggregateRoot<ValueObjects.HallEquipmentId>
+    public sealed class HallEquipment : AggregateRoot<Guid>
     {
         private HallEquipment() : base() 
         { 
         }
 
-        public HallEquipment(ValueObjects.HallEquipmentId id, string name, Cost cost, HallId hallId) : base(id)
+        public HallEquipment(Guid id, string name, Cost cost, Guid hallId) : base(id)
         {
             Name = name;
             Cost = cost;
@@ -27,7 +26,7 @@ namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 
         public Cost Cost { get; private set; }
 
-        public HallId HallId { get; private set; }
+        public Guid HallId { get; private set; }
 
         public bool IsSameAs(HallEquipment equipment)
 		{

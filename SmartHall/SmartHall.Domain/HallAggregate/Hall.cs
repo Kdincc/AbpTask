@@ -3,7 +3,6 @@ using SmartHall.Domain.Common.Comparers;
 using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
-using SmartHall.Domain.HallAggregate.Entities.HallEquipment.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 using System;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate
 {
-    public sealed class Hall : AggregateRoot<HallId>
+    public sealed class Hall : AggregateRoot<Guid>
 	{
 		private readonly List<Entities.Reservation.Reservation> _reservations;
 		private List<HallEquipment> _availableEquipment ;
@@ -25,7 +24,7 @@ namespace SmartHall.Domain.HallAggregate
 			_availableEquipment = new List<HallEquipment>();
 		}
 
-		public Hall(HallId id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
+		public Hall(Guid id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
