@@ -17,11 +17,15 @@ namespace SmartHall.Controllers
 		private readonly IValidator<RemoveHallRequest> _removeHallValidator;
 		private readonly IValidator<ReserveHallRequest> _reserveValidator;
 
-		public HallsController(IHallService hallService, IValidator<CreateHallRequest> createHallValidator, IValidator<RemoveHallRequest> removeHallValidator, IValidator<ReserveHallRequest> reserveValidator)
+		public HallsController(IHallService hallService,
+						 IValidator<CreateHallRequest> createHallValidator,
+						 IValidator<RemoveHallRequest> removeHallValidator,
+						 IValidator<ReserveHallRequest> reserveValidator)
 		{
 			_reserveValidator = reserveValidator;
 			_removeHallValidator = removeHallValidator;
 			_createHallValidator = createHallValidator;
+
 			_hallService = hallService;
 		}
 

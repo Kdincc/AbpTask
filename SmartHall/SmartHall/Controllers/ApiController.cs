@@ -9,7 +9,7 @@ namespace SmartHall.Controllers
 	{
 		protected IActionResult Problem(List<Error> errors)
 		{
-			Error error = errors.First();
+			Error error = errors[0];
 
 			int statusCode = error.Type switch
 			{
