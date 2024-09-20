@@ -4,11 +4,6 @@ using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Halls.ReservationStrategies
 {
@@ -30,7 +25,7 @@ namespace SmartHall.Application.Halls.ReservationStrategies
 			{
 				selectedEquipmentCost = selected.Aggregate(Cost.Create(0), (acc, equipment) => acc + equipment.Cost);
 			}
-			 
+
 			Cost hourlyCost = hall.BaseCost + selectedEquipmentCost;
 			Cost totalCost = Cost.Create(0);
 			DateTime current = reservation.Period.Start;

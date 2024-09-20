@@ -3,20 +3,14 @@ using SmartHall.Domain.Common.Comparers;
 using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
-using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate
 {
-    public sealed class Hall : AggregateRoot<Guid>
+	public sealed class Hall : AggregateRoot<Guid>
 	{
 		private readonly List<Entities.Reservation.Reservation> _reservations;
-		private List<HallEquipment> _availableEquipment ;
+		private List<HallEquipment> _availableEquipment;
 
 		private Hall() : base()
 		{
@@ -54,7 +48,7 @@ namespace SmartHall.Domain.HallAggregate
 		public Cost Reserve(Entities.Reservation.Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
 		{
 			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period)))
-		    {
+			{
 				throw new ArgumentException("Reservation period overlaps with another reservation");
 			}
 

@@ -1,13 +1,6 @@
 ﻿using FluentValidation;
 using SmartHall.Contracts.Halls.GetFreeHall;
-using SmartHall.Contracts.Halls.ReserveHall;
 using SmartHall.Domain.Common.Constanst;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Halls.Validators
 {

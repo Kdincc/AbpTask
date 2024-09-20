@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartHall.Domain.Common.Models
+﻿namespace SmartHall.Domain.Common.Models
 {
-	public abstract class Entity<TId> : IEquatable<Entity<TId>>	where TId : notnull
+	public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
 	{
 		protected Entity()
 		{
 
 		}
 
-        protected Entity(TId id)
-        {
-            Id = id;
-        }
+		protected Entity(TId id)
+		{
+			Id = id;
+		}
 
-        public TId Id { get; protected set; }
+		public TId Id { get; protected set; }
 
 		public bool Equals(Entity<TId> other)
 		{

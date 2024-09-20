@@ -3,7 +3,6 @@ using SmartHall.Application.Common.Mapping;
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Application.Halls.ReservationStrategies;
 using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.Dtos;
 using SmartHall.Contracts.Halls.GetFreeHall;
 using SmartHall.Contracts.Halls.RemoveHall;
 using SmartHall.Contracts.Halls.ReserveHall;
@@ -16,68 +15,63 @@ using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Halls.Services
 {
-    public sealed class HallService : IHallService
-    {
-        private readonly IHallRepository _repository;
+	public sealed class HallService : IHallService
+	{
+		private readonly IHallRepository _repository;
 
-        public HallService(IHallRepository hallRepository)
-        {
-            _repository = hallRepository;
-        }
+		public HallService(IHallRepository hallRepository)
+		{
+			_repository = hallRepository;
+		}
 
-        public async Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request, CancellationToken cancellationToken)
-        {
-            Cost baseCost = Cost.Create(request.BaseHallCost);
-            Capacity hallCapacity = Capacity.Create(request.Capacity);
-            Guid id = Guid.NewGuid();
-            List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto(id)).ToList();
+		public async Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request, CancellationToken cancellationToken)
+		{
+			Cost baseCost = Cost.Create(request.BaseHallCost);
+			Capacity hallCapacity = Capacity.Create(request.Capacity);
+			Guid id = Guid.NewGuid();
+			List<HallEquipment> hallEquipment = request.Equipment.Select(e => e.FromDto(id)).ToList();
 
-            Hall newHall = new(id, request.HallName, hallCapacity, baseCost, hallEquipment, []);
+			Hall newHall = new(id, request.HallName, hallCapacity, baseCost, hallEquipment, []);
 
-            var halls = await _repository.GetAllWithEquipment(cancellationToken);
+			var halls = await _repository.GetAllWithEquipment(cancellationToken);
 
-            if (halls.Any(h => h.IsSameAs(newHall)))
+			if (halls.Any(h => h.IsSameAs(newHall)))
 			{
 				return HallErrors.Dublication;
 			}
 
-            await _repository.AddAsync(newHall, cancellationToken);
+			await _repository.AddAsync(newHall, cancellationToken);
 
-            return new CreateHallResponse(newHall.Id);
-        }
+			return new CreateHallResponse(newHall.Id);
+		}
 
 		public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
-        {
-            Hall hallToDelete = await _repository.GetByIdAsync(request.HallId, cancellationToken);
+		{
+			Hall hallToDelete = await _repository.GetByIdAsync(request.HallId, cancellationToken);
 
-            if (hallToDelete is null)
-            {
-                return HallErrors.HallNotFound;
-            }
+			if (hallToDelete is null)
+			{
+				return HallErrors.HallNotFound;
+			}
 
-            await _repository.DeleteAsync(hallToDelete, cancellationToken);
+			await _repository.DeleteAsync(hallToDelete, cancellationToken);
 
-            return new RemoveHallResponse(hallToDelete.Id);
-        }
+			return new RemoveHallResponse(hallToDelete.Id);
+		}
 
-        public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
-        {
-            Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(request.HallId, cancellationToken);
-            List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
-            TimeSpan duratation = TimeSpan.FromHours(request.Hours);
+		public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
+		{
+			Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(request.HallId, cancellationToken);
+			List<HallEquipment> selectedEquipment = request.SelectedEquipment.Select(e => e.FromDto()).ToList();
+			TimeSpan duratation = TimeSpan.FromHours(request.Hours);
 
-            if (hallToReserve is null)
-            {
-                return HallErrors.HallNotFound;
-            }
+			if (hallToReserve is null)
+			{
+				return HallErrors.HallNotFound;
+			}
 
 			if (!selectedEquipment.SequenceEqual(hallToReserve.AvailableEquipment))
 			{
@@ -86,57 +80,57 @@ namespace SmartHall.Application.Halls.Services
 
 			ReservationPeriod reservationPeriod = ReservationPeriod.Create(request.ReservationDateTime, duratation);
 
-            if (hallToReserve.Reservations.Any(r => r.Period.Overlapse(reservationPeriod)))
-            {
-                return HallErrors.HallAlreadyReserved;
-            }
+			if (hallToReserve.Reservations.Any(r => r.Period.Overlapse(reservationPeriod)))
+			{
+				return HallErrors.HallAlreadyReserved;
+			}
 
-            Reservation reservation = new(Guid.NewGuid(), reservationPeriod, request.HallId);
+			Reservation reservation = new(Guid.NewGuid(), reservationPeriod, request.HallId);
 
-            Cost totalCost = hallToReserve.Reserve(reservation, selectedEquipment, new HallReservationStrategy());
+			Cost totalCost = hallToReserve.Reserve(reservation, selectedEquipment, new HallReservationStrategy());
 
-            await _repository.UpdateAsync(hallToReserve, cancellationToken);
+			await _repository.UpdateAsync(hallToReserve, cancellationToken);
 
-            return new ReserveHallResponse(totalCost.Value);
-        }
+			return new ReserveHallResponse(totalCost.Value);
+		}
 
 		public async Task<ErrorOr<SearchFreeHallResponse>> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
 		{
-            TimeSpan duratation = TimeSpan.FromHours(request.Hours);
-            Capacity capacity = Capacity.Create(request.Capacity);
-            ReservationPeriod period = ReservationPeriod.Create(request.DateTime, duratation);
-            IEnumerable<Hall> halls = await _repository.GetAllAsync(cancellationToken);
+			TimeSpan duratation = TimeSpan.FromHours(request.Hours);
+			Capacity capacity = Capacity.Create(request.Capacity);
+			ReservationPeriod period = ReservationPeriod.Create(request.DateTime, duratation);
+			IEnumerable<Hall> halls = await _repository.GetAllAsync(cancellationToken);
 
-            var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.All(r => !r.Period.Overlapse(period)));
+			var matches = halls.Where(h => h.Capacity == capacity && !h.Reservations.All(r => !r.Period.Overlapse(period)));
 
-            return new SearchFreeHallResponse(matches.Select(m => m.ToDto()).ToList());
+			return new SearchFreeHallResponse(matches.Select(m => m.ToDto()).ToList());
 		}
 
 		public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
-        {
-            Hall hallToUpdate = await _repository.GetByIdAsync(request.HallId, cancellationToken);
+		{
+			Hall hallToUpdate = await _repository.GetByIdAsync(request.HallId, cancellationToken);
 
-            if (hallToUpdate is null)
-            {
-                return HallErrors.HallNotFound;
-            }
+			if (hallToUpdate is null)
+			{
+				return HallErrors.HallNotFound;
+			}
 
-            Cost baseCost = Cost.Create(request.BaseCost);
-            Capacity hallCapacity = Capacity.Create(request.Capacity);
-            List<HallEquipment> hallEquipment = request.HallEquipment.Select(e => e.FromDto(hallToUpdate.Id)).ToList();
+			Cost baseCost = Cost.Create(request.BaseCost);
+			Capacity hallCapacity = Capacity.Create(request.Capacity);
+			List<HallEquipment> hallEquipment = request.HallEquipment.Select(e => e.FromDto(hallToUpdate.Id)).ToList();
 
-            hallToUpdate.Update(request.Name, hallCapacity, baseCost, hallEquipment);
+			hallToUpdate.Update(request.Name, hallCapacity, baseCost, hallEquipment);
 
-            var halls = await _repository.GetAllAsync(cancellationToken);
+			var halls = await _repository.GetAllAsync(cancellationToken);
 
-            if (halls.Any(h => h.IsSameAs(hallToUpdate)))
+			if (halls.Any(h => h.IsSameAs(hallToUpdate)))
 			{
 				return HallErrors.Dublication;
 			}
 
-            await _repository.UpdateAsync(hallToUpdate, cancellationToken);
+			await _repository.UpdateAsync(hallToUpdate, cancellationToken);
 
-            return new UpdateHallResponse(hallToUpdate.Id);
-        }
-    }
+			return new UpdateHallResponse(hallToUpdate.Id);
+		}
+	}
 }

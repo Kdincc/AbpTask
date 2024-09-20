@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Domain.HallAggregate;
-using SmartHall.Domain.HallAggregate.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Infrastructure.Persistense.Repos
 {
@@ -14,12 +8,12 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 	{
 		private readonly SmartHallDbContext _dbContext;
 
-        public HallRepository(SmartHallDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+		public HallRepository(SmartHallDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
-        public async Task AddAsync(Hall entity, CancellationToken cancellationToken)
+		public async Task AddAsync(Hall entity, CancellationToken cancellationToken)
 		{
 			await _dbContext.Halls.AddAsync(entity, cancellationToken);
 

@@ -1,12 +1,7 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Halls.UpdateHall;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SmartHall.Domain.Common.Constanst.Halls;
 using SmartHall.Contracts.Halls.CreateHall;
+using SmartHall.Contracts.Halls.UpdateHall;
+using SmartHall.Domain.Common.Constanst.Halls;
 
 namespace SmartHall.Application.Halls.Validators
 {

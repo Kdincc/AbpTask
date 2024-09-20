@@ -4,11 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Infrastructure.Persistense;
 using SmartHall.Infrastructure.Persistense.Repos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Infrastructure
 {

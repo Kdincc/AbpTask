@@ -3,12 +3,6 @@ using SmartHall.Contracts.Halls.Dtos;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
-using SmartHall.Domain.HallAggregate.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Common.Mapping
 {

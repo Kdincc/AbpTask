@@ -1,24 +1,19 @@
 ﻿using SmartHall.Domain.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 {
 	public sealed class ReservationPeriod : ValueObject
 	{
-        private ReservationPeriod(DateTime start, TimeSpan duratation)
-        {
-            Start = start;
+		private ReservationPeriod(DateTime start, TimeSpan duratation)
+		{
+			Start = start;
 
 			Duration = duratation;
 
 			End = start.Add(duratation);
-        }
+		}
 
-        public DateTime Start { get; private set; }
+		public DateTime Start { get; private set; }
 
 		public DateTime End { get; private set; }
 
