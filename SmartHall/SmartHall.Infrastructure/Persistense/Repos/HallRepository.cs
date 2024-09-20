@@ -51,6 +51,7 @@ namespace SmartHall.Infrastructure.Persistense.Repos
 			var hall = await _dbContext.Halls
 				.Include(h => h.AvailableEquipment)
 				.Include(h => h.Reservations)
+				.AsSplitQuery()
 				.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
 			return hall;
