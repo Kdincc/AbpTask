@@ -13,7 +13,7 @@ namespace SmartHall
 
 			builder.Services
 				.AddInfrastructure(builder.Configuration)
-				.AddApplication() 
+				.AddApplication(builder.Configuration) 
 				.AddPresentation();
 
 			builder.Services.AddAuthorization();
