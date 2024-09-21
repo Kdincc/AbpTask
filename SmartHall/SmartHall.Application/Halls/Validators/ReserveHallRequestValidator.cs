@@ -48,11 +48,6 @@ namespace SmartHall.Application.Halls.Validators
 				return false;
 			}
 
-			if (endDate <= startDate)
-			{
-				return false;
-			}
-
 			if (startDate.Date != endDate.Date)
 			{
 				return false;

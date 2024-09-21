@@ -23,7 +23,9 @@ namespace SmartHall.Domain.Common.ValueObjects
 				throw new ArgumentException("Cost cannot be negative");
 			}
 
-			return new Cost(value);
+			var rounded = Math.Round(value, 2);
+
+			return new Cost(rounded);
 		}
 
 		public static Cost operator +(Cost a, Cost b)

@@ -36,7 +36,6 @@ namespace SmartHall.Controllers
 			_createHallValidator = createHallValidator;
 			_searchHallValidator = searchHallValidator;
 			
-
 			_hallService = hallService;
 		}
 
