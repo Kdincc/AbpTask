@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartHall.Application.Common.Persistance;
@@ -19,6 +20,10 @@ namespace SmartHall.Infrastructure
 			services.AddScoped<IHallRepository, HallRepository>();
 
 			services.AddSingleton(TimeProvider.System);
+
+			services.AddIdentity<IdentityUser, IdentityRole>()
+				.AddEntityFrameworkStores<SmartHallDbContext>()
+				.AddDefaultTokenProviders();
 
 			return services;
 		}
