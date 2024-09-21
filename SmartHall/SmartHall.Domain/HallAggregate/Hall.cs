@@ -3,22 +3,23 @@ using SmartHall.Domain.Common.Comparers;
 using SmartHall.Domain.Common.Models;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
+using SmartHall.Domain.HallAggregate.Entities.Reservation;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 
 namespace SmartHall.Domain.HallAggregate
 {
 	public sealed class Hall : AggregateRoot<Guid>
 	{
-		private readonly List<Entities.Reservation.Reservation> _reservations;
+		private readonly List<Reservation> _reservations;
 		private List<HallEquipment> _availableEquipment;
 
 		private Hall() : base()
 		{
-			_reservations = new List<Entities.Reservation.Reservation>();
-			_availableEquipment = new List<HallEquipment>();
+			_reservations = [];
+			_availableEquipment = [];
 		}
 
-		public Hall(Guid id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Entities.Reservation.Reservation> reservations) : base(id)
+		public Hall(Guid id, string name, Capacity capacity, Cost baseCost, List<HallEquipment> availableEquipment, List<Reservation> reservations) : base(id)
 		{
 			Name = name;
 			Capacity = capacity;
@@ -35,7 +36,7 @@ namespace SmartHall.Domain.HallAggregate
 
 		public IReadOnlyCollection<HallEquipment> AvailableEquipment => _availableEquipment.AsReadOnly();
 
-		public IReadOnlyCollection<Entities.Reservation.Reservation> Reservations => _reservations.AsReadOnly();
+		public IReadOnlyCollection<Reservation> Reservations => _reservations.AsReadOnly();
 
 		public void Update(string name, Capacity capacity, Cost baseCost, List<HallEquipment> hallEquipment)
 		{
@@ -45,9 +46,9 @@ namespace SmartHall.Domain.HallAggregate
 			_availableEquipment = hallEquipment;
 		}
 
-		public Cost Reserve(Entities.Reservation.Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
+		public Cost Reserve(Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
 		{
-			if (_reservations.Any(r => r.Period.Overlapse(reservation.Period)))
+			if (IsReservationOverlaps(reservation))
 			{
 				throw new ArgumentException("Reservation period overlaps with another reservation");
 			}
@@ -59,16 +60,31 @@ namespace SmartHall.Domain.HallAggregate
 
 		public bool IsSameAs(Hall hall)
 		{
-			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && HasSameEquipment(hall._availableEquipment);
+			return Name == hall.Name && Capacity == hall.Capacity && BaseCost == hall.BaseCost && HasSameEquipment(hall.AvailableEquipment);
 		}
 
-		public bool HasSameEquipment(List<HallEquipment> equipment)
+		public bool HasSameEquipment(IEnumerable<HallEquipment> equipment)
 		{
 			var comparer = new HallEquipmentComparer();
 
 			bool areEqual = equipment.SequenceEqual(_availableEquipment, comparer);
 
 			return areEqual;
+		}
+
+		public bool IsReservationOverlaps(Reservation reservation)
+		{
+			if (_reservations.Any(r => r.Period.Overlaps(reservation.Period)))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public bool HasNotAvailableEquipment(List<HallEquipment> equipment)
+		{
+			return equipment.Any(e => !_availableEquipment.Contains(e));
 		}
 	}
 }

@@ -25,9 +25,9 @@ namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 			yield return End;
 		}
 
-		public bool Overlapse(ReservationPeriod period)
+		public bool Overlaps(ReservationPeriod period)
 		{
-			return Start < period.Start && End > period.End;
+			return Start < period.End && End > period.Start;
 		}
 
 		public static ReservationPeriod Create(DateTime start, TimeSpan duratation)

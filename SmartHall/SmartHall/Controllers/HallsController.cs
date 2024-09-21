@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using SmartHall.Application.Halls.Services;
 using SmartHall.Contracts.Common.ApiRoutes;
 using SmartHall.Contracts.Halls.CreateHall;
+using SmartHall.Contracts.Halls.GetFreeHall;
 using SmartHall.Contracts.Halls.RemoveHall;
 using SmartHall.Contracts.Halls.ReserveHall;
+using SmartHall.Contracts.Halls.SearchFreeHall;
+using SmartHall.Contracts.Halls.UpdateHall;
+using SmartHall.Mappings;
 
 namespace SmartHall.Controllers
 {
@@ -16,15 +20,22 @@ namespace SmartHall.Controllers
 		private readonly IValidator<CreateHallRequest> _createHallValidator;
 		private readonly IValidator<RemoveHallRequest> _removeHallValidator;
 		private readonly IValidator<ReserveHallRequest> _reserveValidator;
+		private readonly IValidator<UpdateHallRequest> _updateHallValidator;
+		private readonly IValidator<SearchFreeHallRequest> _searchHallValidator;
 
 		public HallsController(IHallService hallService,
 						 IValidator<CreateHallRequest> createHallValidator,
 						 IValidator<RemoveHallRequest> removeHallValidator,
-						 IValidator<ReserveHallRequest> reserveValidator)
+						 IValidator<ReserveHallRequest> reserveValidator,
+						 IValidator<UpdateHallRequest> updateValidator,
+						 IValidator<SearchFreeHallRequest> searchHallValidator)
 		{
+			_updateHallValidator = updateValidator;
 			_reserveValidator = reserveValidator;
 			_removeHallValidator = removeHallValidator;
 			_createHallValidator = createHallValidator;
+			_searchHallValidator = searchHallValidator;
+			
 
 			_hallService = hallService;
 		}
@@ -39,7 +50,7 @@ namespace SmartHall.Controllers
 
 			if (!validationResult.IsValid)
 			{
-				return Problem(ToErrors(validationResult.Errors));
+				return Problem(validationResult.Errors.ToErrors());
 			}
 
 			var result = await _hallService.CreateHall(request, cancellationToken);
@@ -57,7 +68,7 @@ namespace SmartHall.Controllers
 
 			if (!validationResult.IsValid)
 			{
-				return Problem(ToErrors(validationResult.Errors));
+				return Problem(validationResult.Errors.ToErrors());
 			}
 
 			var result = await _hallService.RemoveHall(request, cancellationToken);
@@ -75,7 +86,7 @@ namespace SmartHall.Controllers
 
 			if (!validationResult.IsValid)
 			{
-				return Problem(ToErrors(validationResult.Errors));
+				return Problem(validationResult.Errors.ToErrors());
 			}
 
 			var result = await _hallService.ReserveHall(request, cancellationToken);
@@ -83,10 +94,40 @@ namespace SmartHall.Controllers
 			return result.Match(Ok, Problem);
 		}
 
-
-		private static List<Error> ToErrors(List<ValidationFailure> validationFailures)
+		[HttpPut(HallsControllerRoutes.UpdateHall)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+		[ProducesResponseType<UpdateHallResponse>(StatusCodes.Status200OK)]
+		public async Task<IActionResult> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
 		{
-			return validationFailures.Select(e => Error.Validation(code: e.ErrorCode, description: e.ErrorMessage)).ToList();
+			var validationResult = await _updateHallValidator.ValidateAsync(request, cancellationToken);
+
+			if (!validationResult.IsValid)
+			{
+				return Problem(validationResult.Errors.ToErrors());
+			}
+
+			var result = await _hallService.UpdateHall(request, cancellationToken);
+
+			return result.Match(Ok, Problem);
+		}
+
+		[HttpGet(HallsControllerRoutes.SearchFreeHall)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType<SearchFreeHallResponse>(StatusCodes.Status200OK)]
+		public async Task<IActionResult> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
+		{
+			var validationResult = await _searchHallValidator.ValidateAsync(request, cancellationToken);
+
+			if (!validationResult.IsValid)
+			{
+				return Problem(validationResult.Errors.ToErrors());
+			}
+
+			var result = await _hallService.SearchFreeHall(request, cancellationToken);
+
+			return Ok(result);
 		}
 	}
 }

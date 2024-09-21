@@ -2,6 +2,6 @@
 {
 	public static class HallConstants
 	{
-		public const int MaxNameLenght = 100;
+		public const int MaxNameLength = 100;
 	}
 }

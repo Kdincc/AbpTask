@@ -18,6 +18,6 @@ namespace SmartHall.Application.Halls.Services
 
 		public Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken);
 
-		public Task<ErrorOr<SearchFreeHallResponse>> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken);
+		public Task<SearchFreeHallResponse> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken);
 	}
 }

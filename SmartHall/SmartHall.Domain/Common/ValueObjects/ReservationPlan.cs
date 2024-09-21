@@ -8,13 +8,13 @@ namespace SmartHall.Domain.Common.ValueObjects
 
 		public TimeSpan End { get; private set; }
 
-		public decimal Modyfier { get; private set; }
+		public decimal Modifier { get; private set; }
 
 		private ReservationPlan(TimeSpan start, TimeSpan end, decimal modyfier)
 		{
 			Start = start;
 			End = end;
-			Modyfier = modyfier;
+			Modifier = modyfier;
 		}
 
 		public override IEnumerable<object> GetEqualityComponents()
@@ -23,19 +23,19 @@ namespace SmartHall.Domain.Common.ValueObjects
 			yield return End;
 		}
 
-		public static ReservationPlan Create(TimeSpan start, TimeSpan end, decimal modyfier)
+		public static ReservationPlan Create(TimeSpan start, TimeSpan end, decimal modifier)
 		{
 			if (start >= end)
 			{
 				throw new ArgumentException("Start time must be before end time");
 			}
 
-			if (modyfier < 0)
+			if (modifier < 0)
 			{
-				throw new ArgumentException("Modyfier cannot be negative");
+				throw new ArgumentException("Modifier cannot be negative");
 			}
 
-			return new ReservationPlan(start, end, modyfier);
+			return new ReservationPlan(start, end, modifier);
 		}
 
 		public bool IsWithin(TimeSpan time)

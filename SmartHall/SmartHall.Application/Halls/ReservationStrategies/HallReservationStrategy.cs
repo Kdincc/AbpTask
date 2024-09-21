@@ -11,10 +11,10 @@ namespace SmartHall.Application.Halls.ReservationStrategies
 	{
 		private readonly Dictionary<Func<TimeSpan, bool>, Func<Cost, Cost>> _planHandlers = new()
 		{
-			{ ReservationPlans.PeakPlan.IsWithin, cost => cost * ReservationPlans.PeakPlan.Modyfier },
-			{ ReservationPlans.MorningPlan.IsWithin, cost => cost * ReservationPlans.MorningPlan.Modyfier },
-			{ ReservationPlans.EveningPlan.IsWithin, cost => cost * ReservationPlans.EveningPlan.Modyfier },
-			{ ReservationPlans.Default.IsWithin, cost => cost * ReservationPlans.Default.Modyfier }
+			{ ReservationPlans.PeakPlan.IsWithin, cost => cost * ReservationPlans.PeakPlan.Modifier },
+			{ ReservationPlans.MorningPlan.IsWithin, cost => cost * ReservationPlans.MorningPlan.Modifier },
+			{ ReservationPlans.EveningPlan.IsWithin, cost => cost * ReservationPlans.EveningPlan.Modifier },
+			{ ReservationPlans.Default.IsWithin, cost => cost * ReservationPlans.Default.Modifier }
 		};
 
 		public Cost CalculateCost(Hall hall, Reservation reservation, List<HallEquipment> selected)
