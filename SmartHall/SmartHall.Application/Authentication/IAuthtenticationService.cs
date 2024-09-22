@@ -13,5 +13,7 @@ namespace SmartHall.Application.Authentication
 		public Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken);
 
 		public Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken);
+
+		public Task<IdentityUser> FindByEmail(string email, CancellationToken cancellationToken);
 	}
 }

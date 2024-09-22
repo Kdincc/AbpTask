@@ -21,6 +21,7 @@ namespace SmartHall.Application
 			services.AddApplicationAuthentication(configuration);
 
 			services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+			services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 			return services;
 		}

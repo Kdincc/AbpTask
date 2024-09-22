@@ -20,7 +20,12 @@ namespace SmartHall.Application.Authentication
 			_signInManager = signInManager;
         }
 
-        public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
+		public Task<IdentityUser> FindByEmail(string email, CancellationToken cancellationToken)
+		{
+			return _userManager.FindByEmailAsync(email);
+		}
+
+		public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
 		{
 			var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
 
