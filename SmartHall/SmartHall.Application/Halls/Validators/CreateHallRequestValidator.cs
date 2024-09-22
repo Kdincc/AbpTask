@@ -14,7 +14,7 @@ namespace SmartHall.Application.Halls.Validators
 
 			RuleFor(c => c.HallName)
 				.NotEmpty()
-				.MaximumLength(HallEquipmentConstants.MaxNameLenght);
+				.MaximumLength(HallEquipmentConstants.MaxNameLength);
 
 			RuleFor(c => c.Capacity)
 				.NotEmpty()

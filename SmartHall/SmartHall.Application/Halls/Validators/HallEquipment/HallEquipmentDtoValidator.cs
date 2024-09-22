@@ -13,7 +13,7 @@ namespace SmartHall.Application.Halls.Validators.HallEquipment
 
 			RuleFor(x => x.Name)
 				.NotEmpty()
-				.MaximumLength(HallEquipmentConstants.MaxNameLenght);
+				.MaximumLength(HallEquipmentConstants.MaxNameLength);
 
 			RuleFor(x => x.Cost)
 				.NotEmpty()
