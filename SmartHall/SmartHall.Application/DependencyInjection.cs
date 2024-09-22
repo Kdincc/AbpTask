@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using SmartHall.Application.Authentication;
 
 namespace SmartHall.Application
 {
@@ -18,6 +19,8 @@ namespace SmartHall.Application
 			services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
 			services.AddApplicationAuthentication(configuration);
+
+			services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 			return services;
 		}
