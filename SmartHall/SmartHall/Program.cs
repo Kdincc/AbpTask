@@ -16,9 +16,6 @@ namespace SmartHall
 				.AddApplication(builder.Configuration) 
 				.AddPresentation();
 
-			builder.Services.AddAuthorization();
-			builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
-
 			var app = builder.Build();
 
 			if (app.Environment.IsDevelopment())
@@ -29,7 +26,11 @@ namespace SmartHall
 
 			app.UseHttpsRedirection();
 
+			app.UseRouting();
+
 			app.UseAuthorization();
+
+			app.UseAuthentication();
 
 			app.MapControllers();
 

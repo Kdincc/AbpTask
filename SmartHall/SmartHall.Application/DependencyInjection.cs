@@ -30,6 +30,7 @@ namespace SmartHall.Application
 		{
 			var jwtSettings = configuration.GetSection("Jwt");
 
+			services.AddAuthorization();
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{

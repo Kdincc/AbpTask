@@ -1,6 +1,8 @@
 ﻿using ErrorOr;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHall.Application.Halls.Services;
 using SmartHall.Contracts.Common.ApiRoutes;
@@ -14,6 +16,7 @@ using SmartHall.Mappings;
 
 namespace SmartHall.Controllers
 {
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public sealed class HallsController : ApiController
 	{
 		private readonly IHallService _hallService;
@@ -40,6 +43,7 @@ namespace SmartHall.Controllers
 		}
 
 		[HttpPost(HallsControllerRoutes.CreateHall)]
+		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
 		[ProducesResponseType<CreateHallResponse>(StatusCodes.Status200OK)]
@@ -58,6 +62,7 @@ namespace SmartHall.Controllers
 		}
 
 		[HttpDelete(HallsControllerRoutes.RemoveHall)]
+		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
 		[ProducesResponseType<RemoveHallResponse>(StatusCodes.Status200OK)]
@@ -76,6 +81,7 @@ namespace SmartHall.Controllers
 		}
 
 		[HttpPatch(HallsControllerRoutes.ReserveHall)]
+		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
 		[ProducesResponseType<ReserveHallResponse>(StatusCodes.Status200OK)]
@@ -94,6 +100,7 @@ namespace SmartHall.Controllers
 		}
 
 		[HttpPut(HallsControllerRoutes.UpdateHall)]
+		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
@@ -113,6 +120,7 @@ namespace SmartHall.Controllers
 		}
 
 		[HttpGet(HallsControllerRoutes.SearchFreeHall)]
+		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType<SearchFreeHallResponse>(StatusCodes.Status200OK)]
 		public async Task<IActionResult> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)

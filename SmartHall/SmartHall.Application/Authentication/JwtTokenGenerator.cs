@@ -29,7 +29,7 @@ namespace SmartHall.Application.Authentication
 				new Claim(ClaimTypes.NameIdentifier, user.Id)
 			};
 
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 			var token = new JwtSecurityToken(
@@ -42,6 +42,5 @@ namespace SmartHall.Application.Authentication
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
-	}
 	}
 }

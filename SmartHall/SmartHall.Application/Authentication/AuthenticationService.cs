@@ -20,9 +20,9 @@ namespace SmartHall.Application.Authentication
 			_signInManager = signInManager;
         }
 
-		public Task<IdentityUser> FindByEmail(string email, CancellationToken cancellationToken)
+		public async Task<IdentityUser> FindByEmail(string email, CancellationToken cancellationToken)
 		{
-			return _userManager.FindByEmailAsync(email);
+			return await _userManager.FindByEmailAsync(email);
 		}
 
 		public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
