@@ -2,6 +2,9 @@
 
 namespace SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects
 {
+	/// <summary>
+	/// Value object for reservation period, contains method for creating and checking overlaps with other periods
+	/// </summary>
 	public sealed class ReservationPeriod : ValueObject
 	{
 		private ReservationPeriod(DateTime start, TimeSpan duratation)

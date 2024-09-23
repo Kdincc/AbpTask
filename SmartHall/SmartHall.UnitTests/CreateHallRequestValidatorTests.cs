@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Moq;
 using SmartHall.Application.Halls.Validators;
-using SmartHall.Domain.Common.Constanst.Halls;
+using SmartHall.Domain.Common.Constants.Halls;
 using FluentValidation.Results;
 using SmartHall.Contracts.Halls.CreateHall;
 using System;

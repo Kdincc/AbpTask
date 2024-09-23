@@ -2,6 +2,9 @@
 
 namespace SmartHall.Domain.Common.ValueObjects
 {
+	/// <summary>
+	/// Value object describing cost of another object
+	/// </summary>
 	public sealed class Cost : ValueObject
 	{
 		public decimal Value { get; private set; }

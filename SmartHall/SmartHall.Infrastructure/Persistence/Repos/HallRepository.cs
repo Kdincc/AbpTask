@@ -2,7 +2,7 @@
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Domain.HallAggregate;
 
-namespace SmartHall.Infrastructure.Persistense.Repos
+namespace SmartHall.Infrastructure.Persistence.Repos
 {
 	public sealed class HallRepository : IHallRepository
 	{

@@ -46,6 +46,14 @@ namespace SmartHall.Domain.HallAggregate
 			_availableEquipment = hallEquipment;
 		}
 
+		/// <summary>
+		/// Method for reserving hall, returns total cost of reservation
+		/// </summary>
+		/// <param name="reservation">Reservation to add</param>
+		/// <param name="selectedEquipment">selected equipment for this reservation</param>
+		/// <param name="reservationStrategy">strategy for calculating total reservation cost</param>
+		/// <returns>Total cost of reservation</returns>
+		/// <exception cref="ArgumentException">Throwing if period of reservation overlaps with existing for this hall</exception>
 		public Cost Reserve(Reservation reservation, List<HallEquipment> selectedEquipment, IHallReservationStrategy reservationStrategy)
 		{
 			if (IsReservationOverlaps(reservation))

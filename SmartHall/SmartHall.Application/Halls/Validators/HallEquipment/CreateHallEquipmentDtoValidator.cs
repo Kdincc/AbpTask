@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Domain.Common.Constanst.Halls;
+using SmartHall.Domain.Common.Constants.Halls;
 
 namespace SmartHall.Application.Halls.Validators.HallEquipment
 {

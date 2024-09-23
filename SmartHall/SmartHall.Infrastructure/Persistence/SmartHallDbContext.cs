@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartHall.Domain.HallAggregate;
 
-namespace SmartHall.Infrastructure.Persistense
+namespace SmartHall.Infrastructure.Persistence
 {
 	public sealed class SmartHallDbContext : IdentityDbContext<IdentityUser>
 	{

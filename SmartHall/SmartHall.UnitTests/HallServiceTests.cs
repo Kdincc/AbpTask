@@ -192,7 +192,7 @@ namespace SmartHall.UnitTests
 
 			// Assert
 			Assert.True(result.IsError);
-			Assert.Equal(result.FirstError, HallErrors.Dublication);
+			Assert.Equal(result.FirstError, HallErrors.Duplication);
 		}
 
 		[Fact]
@@ -302,7 +302,7 @@ namespace SmartHall.UnitTests
 
 			// Assert
 			Assert.True(result.IsError);
-			Assert.Equal(result.FirstError, HallErrors.Dublication);
+			Assert.Equal(result.FirstError, HallErrors.Duplication);
 		}
 
 		[Fact]

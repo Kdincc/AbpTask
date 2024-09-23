@@ -40,7 +40,7 @@ namespace SmartHall.Application.Halls.Services
 
 			if (halls.Any(h => h.IsSameAs(newHall)))
 			{
-				return HallErrors.Dublication;
+				return HallErrors.Duplication;
 			}
 
 			await _repository.AddAsync(newHall, cancellationToken);
@@ -125,7 +125,7 @@ namespace SmartHall.Application.Halls.Services
 
 			if (halls.Any(h => h.IsSameAs(hallToUpdate)))
 			{
-				return HallErrors.Dublication;
+				return HallErrors.Duplication;
 			}
 
 			await _repository.UpdateAsync(hallToUpdate, cancellationToken);

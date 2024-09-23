@@ -16,8 +16,8 @@ namespace SmartHall.Domain.Common.Errors
 			code: "Hall.EquipmentNotAvailable",
 			description: "Selected hall equipment is not available");
 
-		public static Error Dublication => Error.Conflict(
-			code: "Hall.Dublication",
+		public static Error Duplication => Error.Conflict(
+			code: "Hall.Duplication",
 			description: "Hall with that name, capacity, equipment and base cost already exists");
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using SmartHall.Contracts.Halls.Dtos;
 using SmartHall.Contracts.Halls.ReserveHall;
-using SmartHall.Domain.Common.Constanst;
+using SmartHall.Domain.Common.Constants;
 
 namespace SmartHall.Application.Halls.Validators
 {

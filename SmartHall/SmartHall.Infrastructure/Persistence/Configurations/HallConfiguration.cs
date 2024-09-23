@@ -6,7 +6,7 @@ using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
 using SmartHall.Domain.HallAggregate.ValueObjects;
 
-namespace SmartHall.Infrastructure.Persistense.Configurations
+namespace SmartHall.Infrastructure.Persistence.Configurations
 {
 	public sealed class HallConfiguration : IEntityTypeConfiguration<Hall>
 	{

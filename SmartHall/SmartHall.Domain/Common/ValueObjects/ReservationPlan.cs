@@ -2,6 +2,9 @@
 
 namespace SmartHall.Domain.Common.ValueObjects
 {
+	/// <summary>
+	/// Reservation plan value object, describing reservation plan for hall
+	/// </summary>
 	public sealed class ReservationPlan : ValueObject
 	{
 		public TimeSpan Start { get; private set; }
@@ -38,6 +41,11 @@ namespace SmartHall.Domain.Common.ValueObjects
 			return new ReservationPlan(start, end, modifier);
 		}
 
+		/// <summary>
+		/// Method for checking if given time is within reservation plan
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns>Result of comparing</returns>
 		public bool IsWithin(TimeSpan time)
 		{
 			return time >= Start && time < End;

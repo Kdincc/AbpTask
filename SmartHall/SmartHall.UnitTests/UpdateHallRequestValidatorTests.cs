@@ -4,7 +4,7 @@ using Moq;
 using SmartHall.Application.Halls.Validators;
 using SmartHall.Contracts.Halls.CreateHall;
 using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Domain.Common.Constanst.Halls;
+using SmartHall.Domain.Common.Constants.Halls;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace SmartHall.Domain.Common.Constanst.Halls
+﻿namespace SmartHall.Domain.Common.Constants.Halls
 {
 	public static class HallEquipmentConstants
 	{

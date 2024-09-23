@@ -3,7 +3,10 @@ using SmartHall.Domain.Common.ValueObjects;
 
 namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 {
-	public sealed class HallEquipment : AggregateRoot<Guid>
+	/// <summary>
+	///	Entity for hall equipment, part of hall aggregate
+	/// </summary>
+	public sealed class HallEquipment : Entity<Guid>
 	{
 		private HallEquipment() : base()
 		{
@@ -22,6 +25,11 @@ namespace SmartHall.Domain.HallAggregate.Entities.HallEquipment
 
 		public Guid HallId { get; private set; }
 
+		/// <summary>
+		/// Method for comparing two hall equipment entities by name and cost
+		/// </summary>
+		/// <param name="equipment"></param>
+		/// <returns>Comparing result</returns>
 		public bool IsSameAs(HallEquipment equipment)
 		{
 			return Name == equipment.Name && Cost == equipment.Cost;

@@ -2,6 +2,9 @@
 
 namespace SmartHall.Domain.HallAggregate.ValueObjects
 {
+	/// <summary>
+	/// Value object for hall capacity
+	/// </summary>
 	public sealed class Capacity : ValueObject
 	{
 		public int Value { get; private set; }
