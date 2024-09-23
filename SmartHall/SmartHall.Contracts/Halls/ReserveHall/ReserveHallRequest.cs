@@ -2,5 +2,5 @@
 
 namespace SmartHall.Contracts.Halls.ReserveHall
 {
-	public record ReserveHallRequest(Guid HallId, DateTime ReservationDateTime, double Hours, List<HallEquipmentDto> SelectedEquipment);
+	public record ReserveHallRequest(Guid HallId, DateTime ReservationDateTime, int Hours, List<HallEquipmentDto> SelectedEquipment);
 }

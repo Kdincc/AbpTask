@@ -41,7 +41,7 @@ namespace SmartHall.UnitTests
 			];
 			Hall hallToReserve = new(Guid.NewGuid(), "Hall", Capacity.Create(100), Cost.Create(100), hallEquipment, []);
 			DateTime reservationDateTime = new(new DateOnly(2024, 11, 6), new TimeOnly(14, 0, 0));
-			double hours = 2;
+			int hours = 2;
 			List<HallEquipmentDto> equipmentDtos = hallEquipment.Select(e => e.ToDto()).ToList();
 			ReserveHallRequest request = new(hallId, reservationDateTime, hours, equipmentDtos);
 
@@ -69,7 +69,7 @@ namespace SmartHall.UnitTests
 			];
 			Hall hallToReserve = new(Guid.NewGuid(), "Hall", Capacity.Create(100), Cost.Create(100), hallEquipment, []);
 			DateTime reservationDateTime = new(new DateOnly(2024, 11, 6), new TimeOnly(9, 0, 0));
-			double hours = 10;
+			int hours = 10;
 			List<HallEquipmentDto> equipmentDtos = hallEquipment.Select(e => e.ToDto()).ToList();
 			ReserveHallRequest request = new(hallId, reservationDateTime, hours, equipmentDtos);
 

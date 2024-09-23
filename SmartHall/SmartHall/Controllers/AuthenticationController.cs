@@ -52,7 +52,7 @@ namespace SmartHall.Controllers
 
 			if (!result.Result.Succeeded)
 			{
-				return Unauthorized("Invalid login or password!")
+				return Unauthorized("Invalid login or password!");
 			}
 
 			var user = await _authenticationService.FindByEmail(request.Email, cancellationToken);

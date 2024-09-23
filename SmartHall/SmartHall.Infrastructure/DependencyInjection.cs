@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartHall.Application.Common.Persistance;
-using SmartHall.Infrastructure.Persistense;
-using SmartHall.Infrastructure.Persistense.Repos;
+using SmartHall.Infrastructure.Persistence;
+using SmartHall.Infrastructure.Persistence.Repos;
 
 namespace SmartHall.Infrastructure
 {
