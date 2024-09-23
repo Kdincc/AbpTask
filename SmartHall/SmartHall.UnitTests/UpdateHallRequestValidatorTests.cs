@@ -5,26 +5,21 @@ using SmartHall.Application.Halls.Validators;
 using SmartHall.Contracts.Halls.CreateHall;
 using SmartHall.Contracts.Halls.UpdateHall;
 using SmartHall.Domain.Common.Constants.Halls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.UnitTests
 {
 	public sealed class UpdateHallRequestValidatorTests
 	{
 		private readonly IValidator<UpdateHallRequest> _updateHallRequestValidator;
-        private readonly Mock<IValidator<CreateHallEquipmentDto>> _updateHallEquipmentDtoValidator = new();
+		private readonly Mock<IValidator<CreateHallEquipmentDto>> _updateHallEquipmentDtoValidator = new();
 
-        public UpdateHallRequestValidatorTests()
-        {
-            _updateHallRequestValidator = new UpdateHallRequestValidator(_updateHallEquipmentDtoValidator.Object);
-        }
+		public UpdateHallRequestValidatorTests()
+		{
+			_updateHallRequestValidator = new UpdateHallRequestValidator(_updateHallEquipmentDtoValidator.Object);
+		}
 
-        [Fact]
-        public void InvalidResultWhenHallNameIsEmpty()
+		[Fact]
+		public void InvalidResultWhenHallNameIsEmpty()
 		{
 			var updateHallRequest = new UpdateHallRequest(Guid.NewGuid(), string.Empty, 10, 10, []);
 
@@ -86,5 +81,5 @@ namespace SmartHall.UnitTests
 
 			Assert.True(result.IsValid);
 		}
-    }
+	}
 }

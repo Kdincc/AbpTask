@@ -8,7 +8,7 @@ namespace SmartHall
 		{
 			services.AddControllers();
 			services.AddEndpointsApiExplorer();
-			services.AddSwaggerGen(options => 
+			services.AddSwaggerGen(options =>
 			{
 				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 				{

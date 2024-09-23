@@ -1,11 +1,6 @@
 ﻿using FluentValidation;
 using SmartHall.Application.Halls.Validators;
 using SmartHall.Contracts.Halls.RemoveHall;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.UnitTests
 {
@@ -22,5 +17,5 @@ namespace SmartHall.UnitTests
 
 			Assert.False(result.IsValid);
 		}
-    }
+	}
 }

@@ -1,6 +1,4 @@
-﻿using ErrorOr;
-using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +36,7 @@ namespace SmartHall.Controllers
 			_removeHallValidator = removeHallValidator;
 			_createHallValidator = createHallValidator;
 			_searchHallValidator = searchHallValidator;
-			
+
 			_hallService = hallService;
 		}
 

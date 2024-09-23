@@ -7,6 +7,9 @@ using SmartHall.Domain.HallAggregate.Entities.Reservation;
 
 namespace SmartHall.Application.Halls.ReservationStrategies
 {
+	/// <summary>
+	/// Strategy for calculating hall reservation cost
+	/// </summary>
 	public sealed class HallReservationStrategy : IHallReservationStrategy
 	{
 		private readonly Dictionary<Func<TimeSpan, bool>, Func<Cost, Cost>> _planHandlers = new()

@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
-using SmartHall.Application.Halls.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using SmartHall.Application.Authentication;
+using SmartHall.Application.Halls.Services;
+using System.Text;
 
 namespace SmartHall.Application
 {

@@ -18,6 +18,9 @@ using SmartHall.Domain.HallAggregate.ValueObjects;
 
 namespace SmartHall.Application.Halls.Services
 {
+	/// <summary>
+	/// Service for hall operations
+	/// </summary>
 	public sealed class HallService : IHallService
 	{
 		private readonly IHallRepository _repository;
@@ -27,6 +30,12 @@ namespace SmartHall.Application.Halls.Services
 			_repository = hallRepository;
 		}
 
+		/// <summary>
+		/// Method for creating a new hall
+		/// </summary>
+		/// <param name="request"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns>CreateHallResponse with id of new hall, if hall with same properties already exists returns return HallErrors.Duplication </returns>
 		public async Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request, CancellationToken cancellationToken)
 		{
 			Cost baseCost = Cost.Create(request.BaseHallCost);
@@ -48,6 +57,12 @@ namespace SmartHall.Application.Halls.Services
 			return new CreateHallResponse(newHall.Id);
 		}
 
+		/// <summary>
+		/// Remove hall by id
+		/// </summary>
+		/// <param name="request"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns>RemoveHallResponse with id of removed hall, if hall with given id not found returns HallErrors.HallNotFound</returns>
 		public async Task<ErrorOr<RemoveHallResponse>> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
 		{
 			Hall hallToDelete = await _repository.GetByIdAsync(request.HallId, cancellationToken);
@@ -62,6 +77,15 @@ namespace SmartHall.Application.Halls.Services
 			return new RemoveHallResponse(hallToDelete.Id);
 		}
 
+		/// <summary>
+		/// Reserve hall with selected equipment, start date and duration
+		/// </summary>
+		/// <param name="request"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns>ReserveHallResponse with total cost of reservation. 
+		/// If hall by given id not found returns HallErrors.HallNotFound. 
+		/// If selected equipment contains not available for this hall returns HallErrors.SelectedHallEquipmentNotAvailable.
+		/// If new reservation overlaps with another returns HallErrors.HallAlreadyReserved</returns>
 		public async Task<ErrorOr<ReserveHallResponse>> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
 		{
 			Hall hallToReserve = await _repository.GetByIdWithEquipmentAndReservations(request.HallId, cancellationToken);
@@ -93,6 +117,12 @@ namespace SmartHall.Application.Halls.Services
 			return new ReserveHallResponse(totalCost.Value);
 		}
 
+		/// <summary>
+		/// Search for halls with given capacity and start date and duration
+		/// </summary>
+		/// <param name="request"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns>SearchFreeHallResponse with collection of matches</returns>
 		public async Task<SearchFreeHallResponse> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
 		{
 			TimeSpan duration = TimeSpan.FromHours(request.Hours);
@@ -106,6 +136,14 @@ namespace SmartHall.Application.Halls.Services
 			return new SearchFreeHallResponse(matches.Select(m => m.ToDto()).ToList());
 		}
 
+		/// <summary>
+		/// Updates hall with given id
+		/// </summary>
+		/// <param name="request"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns>UpdateHallResponse with id of update hall.
+		/// If hall after update same as existed in repository returns return HallErrors.Duplication. 
+		/// If hall with given id not found returns HallErrors.HallNotFound </returns>
 		public async Task<ErrorOr<UpdateHallResponse>> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
 		{
 			Hall hallToUpdate = await _repository.GetByIdAsync(request.HallId, cancellationToken);

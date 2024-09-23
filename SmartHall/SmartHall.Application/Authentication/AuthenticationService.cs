@@ -1,24 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SmartHall.Contracts.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Authentication
 {
+	/// <summary>
+	/// Service for authentication operations
+	/// </summary>
 	public sealed class AuthenticationService : IAuthenticationService
 	{
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthenticationService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
-        {
+		public AuthenticationService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
-        }
+		}
 
 		public async Task<IdentityUser> FindByEmail(string email, CancellationToken cancellationToken)
 		{

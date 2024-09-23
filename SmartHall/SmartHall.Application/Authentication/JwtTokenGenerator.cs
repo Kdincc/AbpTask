@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.Application.Authentication
 {
@@ -15,12 +11,12 @@ namespace SmartHall.Application.Authentication
 	{
 		private readonly IConfiguration _configuration;
 
-        public JwtTokenGenerator(IConfiguration configuration)
-        {
+		public JwtTokenGenerator(IConfiguration configuration)
+		{
 			_configuration = configuration;
-        }
+		}
 
-        public string GenerateToken(IdentityUser user)
+		public string GenerateToken(IdentityUser user)
 		{
 			var claims = new[]
 			{

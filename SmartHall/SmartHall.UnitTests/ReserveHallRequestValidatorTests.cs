@@ -4,11 +4,6 @@ using Moq;
 using SmartHall.Application.Halls.Validators;
 using SmartHall.Contracts.Halls.Dtos;
 using SmartHall.Contracts.Halls.ReserveHall;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartHall.UnitTests
 {

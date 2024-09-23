@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SmartHall.Application.Authentication;
 using SmartHall.Contracts.Authentication;
@@ -14,17 +13,17 @@ namespace SmartHall.Controllers
 		private readonly IAuthenticationService _authenticationService;
 		private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthenticationController(IAuthenticationService authenticationService, IJwtTokenGenerator jwtTokenGenerator, IValidator<RegisterRequest> registerValidator)
-        {
+		public AuthenticationController(IAuthenticationService authenticationService, IJwtTokenGenerator jwtTokenGenerator, IValidator<RegisterRequest> registerValidator)
+		{
 			_registerRequestValidator = registerValidator;
-            _authenticationService = authenticationService;
-            _jwtTokenGenerator = jwtTokenGenerator;
-        }
+			_authenticationService = authenticationService;
+			_jwtTokenGenerator = jwtTokenGenerator;
+		}
 
-        [HttpPost(AuthenticationControllerRoutes.Register)]
+		[HttpPost(AuthenticationControllerRoutes.Register)]
 		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Register(RegisterRequest request, CancellationToken cancellationToken)
+		public async Task<IActionResult> Register(RegisterRequest request, CancellationToken cancellationToken)
 		{
 			var validationResult = await _registerRequestValidator.ValidateAsync(request);
 
@@ -61,5 +60,5 @@ namespace SmartHall.Controllers
 
 			return Ok(new { token });
 		}
-    }
+	}
 }

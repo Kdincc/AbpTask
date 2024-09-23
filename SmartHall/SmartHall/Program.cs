@@ -1,5 +1,3 @@
-
-using Microsoft.AspNetCore.Identity;
 using SmartHall.Application;
 using SmartHall.Infrastructure;
 
@@ -13,7 +11,7 @@ namespace SmartHall
 
 			builder.Services
 				.AddInfrastructure(builder.Configuration)
-				.AddApplication(builder.Configuration) 
+				.AddApplication(builder.Configuration)
 				.AddPresentation();
 
 			var app = builder.Build();

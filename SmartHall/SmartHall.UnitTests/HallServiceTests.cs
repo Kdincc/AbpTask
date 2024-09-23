@@ -2,19 +2,19 @@ using Moq;
 using SmartHall.Application.Common.Mapping;
 using SmartHall.Application.Common.Persistance;
 using SmartHall.Application.Halls.Services;
+using SmartHall.Contracts.Halls.CreateHall;
 using SmartHall.Contracts.Halls.Dtos;
+using SmartHall.Contracts.Halls.GetFreeHall;
+using SmartHall.Contracts.Halls.RemoveHall;
 using SmartHall.Contracts.Halls.ReserveHall;
+using SmartHall.Contracts.Halls.UpdateHall;
+using SmartHall.Domain.Common.Errors;
 using SmartHall.Domain.Common.ValueObjects;
 using SmartHall.Domain.HallAggregate;
 using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
 using SmartHall.Domain.HallAggregate.Entities.Reservation;
-using SmartHall.Domain.HallAggregate.ValueObjects;
-using SmartHall.Domain.Common.Errors;
 using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
-using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.RemoveHall;
-using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Contracts.Halls.GetFreeHall;
+using SmartHall.Domain.HallAggregate.ValueObjects;
 
 namespace SmartHall.UnitTests
 {
@@ -23,18 +23,18 @@ namespace SmartHall.UnitTests
 		private readonly Mock<IHallRepository> _hallRepositoryMock = new();
 		private readonly IHallService _hallService;
 
-        public HallServiceTests()
-        {
-            _hallService = new HallService(_hallRepositoryMock.Object);
-        }
+		public HallServiceTests()
+		{
+			_hallService = new HallService(_hallRepositoryMock.Object);
+		}
 
-        [Fact]
+		[Fact]
 		public async Task ReserveHall_ValidData_OneReservationPlan_ReturnResevationCost_ReservationAddedToHall()
 		{
 			// Arrange
 			decimal expected = 340m;
 			Guid hallId = Guid.NewGuid();
-			List<HallEquipment> hallEquipment = 
+			List<HallEquipment> hallEquipment =
 			[
 				new HallEquipment(Guid.NewGuid(), "eqipment", Cost.Create(50), hallId),
 				new HallEquipment(Guid.NewGuid(), "eqipment", Cost.Create(20), hallId)
@@ -240,12 +240,12 @@ namespace SmartHall.UnitTests
 			// Arrange
 			var hallId = Guid.NewGuid();
 			UpdateHallResponse expected = new(hallId);
-			List<HallEquipment> hallEquipment = 
+			List<HallEquipment> hallEquipment =
 			[
 				new HallEquipment(Guid.NewGuid(), "eqipment", Cost.Create(50), hallId),
 				new HallEquipment(Guid.NewGuid(), "eqipment", Cost.Create(20), hallId)
 			];
-			List<CreateHallEquipmentDto> newEquipment = 
+			List<CreateHallEquipmentDto> newEquipment =
 			[
 				new CreateHallEquipmentDto("eqipment", 50),
 				new CreateHallEquipmentDto("eqipment", 20)
@@ -313,7 +313,7 @@ namespace SmartHall.UnitTests
 			SearchFreeHallRequest request = new(dateTime, 3, 50);
 			Reservation firstReservation = new(Guid.NewGuid(), ReservationPeriod.Create(dateTime, TimeSpan.FromHours(2)), Guid.NewGuid());
 			Reservation secondReservation = new(Guid.NewGuid(), ReservationPeriod.Create(dateTime.AddHours(4), TimeSpan.FromHours(2)), Guid.NewGuid());
-			List <Hall> halls = 
+			List<Hall> halls =
 			[
 				new Hall(Guid.NewGuid(), "Hall", Capacity.Create(50), Cost.Create(100), [], [firstReservation]),
 				new Hall(Guid.NewGuid(), "Hall", Capacity.Create(50), Cost.Create(100), [], [secondReservation])

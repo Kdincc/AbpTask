@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using Moq;
 using SmartHall.Application.Halls.Validators;
-using SmartHall.Domain.Common.Constants.Halls;
-using FluentValidation.Results;
 using SmartHall.Contracts.Halls.CreateHall;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SmartHall.Domain.Common.Constants.Halls;
 
 namespace SmartHall.UnitTests
 {

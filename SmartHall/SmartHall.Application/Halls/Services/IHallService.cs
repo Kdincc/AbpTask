@@ -8,6 +8,9 @@ using SmartHall.Contracts.Halls.UpdateHall;
 
 namespace SmartHall.Application.Halls.Services
 {
+	/// <summary>
+	/// Service for hall operations
+	/// </summary>
 	public interface IHallService
 	{
 		public Task<ErrorOr<CreateHallResponse>> CreateHall(CreateHallRequest request, CancellationToken cancellationToken);
