@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHall.Application\SmartHall.Application.csproj" />
+    <ProjectReference Include="..\SmartHall.Contracts\SmartHall.Contracts.csproj" />
+    <ProjectReference Include="..\SmartHall.Infrastructure\SmartHall.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
