@@ -13,7 +13,6 @@ namespace SmartHall.Infrastructure.Persistence
 
 		public DbSet<Hall> Halls { get; set; }
 
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

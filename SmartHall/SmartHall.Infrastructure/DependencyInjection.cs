@@ -25,6 +25,14 @@ namespace SmartHall.Infrastructure
 				.AddEntityFrameworkStores<SmartHallDbContext>()
 				.AddDefaultTokenProviders();
 
+			var scope = services.BuildServiceProvider().CreateScope();
+
+			var context = scope.ServiceProvider.GetRequiredService<SmartHallDbContext>();
+
+			SeedData.Seed(context.Halls);
+
+			context.SaveChanges();
+
 			return services;
 		}
 	}
