@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Halls.Dtos;
-using SmartHall.Contracts.Halls.ReserveHall;
-using SmartHall.Domain.Common.Constants;
+using SmartHall.Common.Halls.Models.Dtos;
+using SmartHall.Common.Halls.Models.ReserveHall;
+using SmartHall.Common.Shared.Constants;
 
-namespace SmartHall.Application.Halls.Validators
+namespace SmartHall.BLL.Halls.Validators
 {
-	public sealed class ReserveHallRequestValidator : AbstractValidator<ReserveHallRequest>
+    public sealed class ReserveHallRequestValidator : AbstractValidator<ReserveHallRequest>
 	{
 		private readonly IValidator<HallEquipmentDto> _equipmentValidator;
 

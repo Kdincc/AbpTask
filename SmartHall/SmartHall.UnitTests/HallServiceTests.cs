@@ -1,27 +1,28 @@
 using Moq;
 using SmartHall.Application.Common.Mapping;
-using SmartHall.Application.Common.Persistance;
-using SmartHall.Application.Halls.Services;
-using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.Dtos;
-using SmartHall.Contracts.Halls.GetFreeHall;
-using SmartHall.Contracts.Halls.RemoveHall;
-using SmartHall.Contracts.Halls.ReserveHall;
-using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Domain.Common.Errors;
-using SmartHall.Domain.Common.ValueObjects;
-using SmartHall.Domain.HallAggregate;
-using SmartHall.Domain.HallAggregate.Entities.HallEquipment;
-using SmartHall.Domain.HallAggregate.Entities.Reservation;
-using SmartHall.Domain.HallAggregate.Entities.Reservation.ValueObjects;
-using SmartHall.Domain.HallAggregate.ValueObjects;
+using SmartHall.BLL.Halls.HallAggregate.Entities.Reservation;
+using SmartHall.BLL.Halls.HallAggregate.ValueObjects;
+using SmartHall.BLL.Halls.Managers;
+using SmartHall.Common.Halls;
+using SmartHall.Common.Halls.Models.CreateHall;
+using SmartHall.Common.Halls.Models.Dtos;
+using SmartHall.Common.Halls.Models.HallAggregate;
+using SmartHall.Common.Halls.Models.HallAggregate.Entities.HallEquipment;
+using SmartHall.Common.Halls.Models.HallAggregate.Entities.Reservation.ValueObjects;
+using SmartHall.Common.Halls.Models.RemoveHall;
+using SmartHall.Common.Halls.Models.ReserveHall;
+using SmartHall.Common.Halls.Models.SearchFreeHall;
+using SmartHall.Common.Halls.Models.UpdateHall;
+using SmartHall.Common.Repositories;
+using SmartHall.Common.Shared.Errors;
+using SmartHall.Common.Shared.ValueObjects;
 
 namespace SmartHall.UnitTests
 {
-	public class HallServiceTests
+    public class HallServiceTests
 	{
 		private readonly Mock<IHallRepository> _hallRepositoryMock = new();
-		private readonly IHallService _hallService;
+		private readonly IHallManager _hallService;
 
 		public HallServiceTests()
 		{

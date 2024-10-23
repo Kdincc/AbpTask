@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Domain.Common.Constants.Halls;
+using SmartHall.Common.Halls.Models.CreateHall;
+using SmartHall.Common.Halls.Models.UpdateHall;
+using SmartHall.Common.Shared.Constants.Halls;
 
-namespace SmartHall.Application.Halls.Validators
+namespace SmartHall.BLL.Halls.Validators
 {
-	public sealed class UpdateHallRequestValidator : AbstractValidator<UpdateHallRequest>
+    public sealed class UpdateHallRequestValidator : AbstractValidator<UpdateHallRequest>
 	{
 		private readonly IValidator<CreateHallEquipmentDto> _equipmentValidator;
 

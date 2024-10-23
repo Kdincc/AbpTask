@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using SmartHall.Application.Halls.Validators;
-using SmartHall.Contracts.Halls.RemoveHall;
+using SmartHall.BLL.Halls.Validators;
+using SmartHall.Common.Halls.Models.RemoveHall;
 
 namespace SmartHall.UnitTests
 {
-	public sealed class RemoveHallRequestValidatorTests
+    public sealed class RemoveHallRequestValidatorTests
 	{
 		private readonly IValidator<RemoveHallRequest> _removeHallRequestValidator = new RemoveHallValidator();
 

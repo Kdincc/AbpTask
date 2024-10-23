@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Halls.GetFreeHall;
-using SmartHall.Domain.Common.Constants;
+using SmartHall.Common.Halls.Models.SearchFreeHall;
+using SmartHall.Common.Shared.Constants;
 
-namespace SmartHall.Application.Halls.Validators
+namespace SmartHall.BLL.Halls.Validators
 {
-	public sealed class SearchFreeHallRequestValidator : AbstractValidator<SearchFreeHallRequest>
+    public sealed class SearchFreeHallRequestValidator : AbstractValidator<SearchFreeHallRequest>
 	{
 		public SearchFreeHallRequestValidator(TimeProvider timeProvider)
 		{

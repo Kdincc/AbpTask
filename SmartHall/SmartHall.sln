@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall", "SmartHall\SmartHall.csproj", "{1E74F248-0612-4268-81BB-A2912AA0C0D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Service", "SmartHall\SmartHall.Service.csproj", "{1E74F248-0612-4268-81BB-A2912AA0C0D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Domain", "SmartHall.Domain\SmartHall.Domain.csproj", "{AB964C51-7F34-4A92-9CD0-7DE4529FC25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Common", "SmartHall.Contracts\SmartHall.Common.csproj", "{1D238C5B-B2A3-4FBA-AE9C-83E4F4D1D370}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Contracts", "SmartHall.Contracts\SmartHall.Contracts.csproj", "{1D238C5B-B2A3-4FBA-AE9C-83E4F4D1D370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.BLL", "SmartHall.Application\SmartHall.BLL.csproj", "{D83A144D-24AA-4534-98EA-ED5BCD8CCE1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Application", "SmartHall.Application\SmartHall.Application.csproj", "{D83A144D-24AA-4534-98EA-ED5BCD8CCE1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.DAL.Sql", "SmartHall.Infrastructure\SmartHall.DAL.Sql.csproj", "{DF827CE9-0C80-43BD-B5D7-30952BA1291F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.Infrastructure", "SmartHall.Infrastructure\SmartHall.Infrastructure.csproj", "{DF827CE9-0C80-43BD-B5D7-30952BA1291F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHall.UnitTests", "SmartHall.UnitTests\SmartHall.UnitTests.csproj", "{D80FDBAD-D20E-4A51-8714-B14BCFEB4C95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHall.UnitTests", "SmartHall.UnitTests\SmartHall.UnitTests.csproj", "{D80FDBAD-D20E-4A51-8714-B14BCFEB4C95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{1E74F248-0612-4268-81BB-A2912AA0C0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E74F248-0612-4268-81BB-A2912AA0C0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E74F248-0612-4268-81BB-A2912AA0C0D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB964C51-7F34-4A92-9CD0-7DE4529FC25B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB964C51-7F34-4A92-9CD0-7DE4529FC25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB964C51-7F34-4A92-9CD0-7DE4529FC25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB964C51-7F34-4A92-9CD0-7DE4529FC25B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D238C5B-B2A3-4FBA-AE9C-83E4F4D1D370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D238C5B-B2A3-4FBA-AE9C-83E4F4D1D370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D238C5B-B2A3-4FBA-AE9C-83E4F4D1D370}.Release|Any CPU.ActiveCfg = Release|Any CPU

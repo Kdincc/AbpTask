@@ -18,9 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartHall.Application\SmartHall.Application.csproj" />
-    <ProjectReference Include="..\SmartHall.Contracts\SmartHall.Contracts.csproj" />
-    <ProjectReference Include="..\SmartHall.Domain\SmartHall.Domain.csproj" />
+    <ProjectReference Include="..\SmartHall.Application\SmartHall.BLL.csproj" />
+    <ProjectReference Include="..\SmartHall.Contracts\SmartHall.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

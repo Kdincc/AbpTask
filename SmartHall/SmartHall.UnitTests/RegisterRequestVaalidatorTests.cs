@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using SmartHall.Application.Authentication.Validation;
-using SmartHall.Contracts.Authentication;
+using SmartHall.BLL.Authentication.Validation;
+using SmartHall.Common.Authentication.Models;
 
 namespace SmartHall.UnitTests
 {
-	public sealed class RegisterRequestVaalidatorTests
+    public sealed class RegisterRequestVaalidatorTests
 	{
 		private readonly IValidator<RegisterRequest> _registerRequestValidator;
 

@@ -1,18 +1,18 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Authentication;
+using SmartHall.Common.Authentication.Models;
 
-namespace SmartHall.Application.Authentication.Validation
+namespace SmartHall.BLL.Authentication.Validation
 {
-	public sealed class RegisterRequestValidator : AbstractValidator<RegisterRequest>
-	{
-		public RegisterRequestValidator()
-		{
-			RuleFor(c => c.Email)
-				.NotEmpty()
-				.EmailAddress();
+    public sealed class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+    {
+        public RegisterRequestValidator()
+        {
+            RuleFor(c => c.Email)
+                .NotEmpty()
+                .EmailAddress();
 
-			RuleFor(c => c.Password)
-				.NotEmpty();
-		}
-	}
+            RuleFor(c => c.Password)
+                .NotEmpty();
+        }
+    }
 }

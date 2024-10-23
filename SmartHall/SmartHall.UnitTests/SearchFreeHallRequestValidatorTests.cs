@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Moq;
-using SmartHall.Application.Halls.Validators;
-using SmartHall.Contracts.Halls.GetFreeHall;
+using SmartHall.BLL.Halls.Validators;
+using SmartHall.Common.Halls.Models.SearchFreeHall;
 
 namespace SmartHall.UnitTests
 {
-	public sealed class SearchFreeHallRequestValidatorTests
+    public sealed class SearchFreeHallRequestValidatorTests
 	{
 		private readonly IValidator<SearchFreeHallRequest> _searchFreeHallRequestValidator;
 		private readonly Mock<TimeProvider> _timeProviderMock = new();

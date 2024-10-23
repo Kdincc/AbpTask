@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
-using SmartHall.Contracts.Halls.RemoveHall;
+using SmartHall.Common.Halls.Models.RemoveHall;
 
-namespace SmartHall.Application.Halls.Validators
+namespace SmartHall.BLL.Halls.Validators
 {
-	public sealed class RemoveHallValidator : AbstractValidator<RemoveHallRequest>
-	{
-		public RemoveHallValidator()
-		{
-			RuleFor(c => c.HallId)
-				.NotEmpty();
-		}
-	}
+    public sealed class RemoveHallValidator : AbstractValidator<RemoveHallRequest>
+    {
+        public RemoveHallValidator()
+        {
+            RuleFor(c => c.HallId)
+                .NotEmpty();
+        }
+    }
 }

@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartHall.Application.Halls.Validators;
-using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Domain.Common.Constants.Halls;
+using SmartHall.BLL.Halls.Validators;
+using SmartHall.Common.Halls.Models.CreateHall;
+using SmartHall.Common.Halls.Models.UpdateHall;
+using SmartHall.Common.Shared.Constants.Halls;
 
 namespace SmartHall.UnitTests
 {
-	public sealed class UpdateHallRequestValidatorTests
+    public sealed class UpdateHallRequestValidatorTests
 	{
 		private readonly IValidator<UpdateHallRequest> _updateHallRequestValidator;
 		private readonly Mock<IValidator<CreateHallEquipmentDto>> _updateHallEquipmentDtoValidator = new();

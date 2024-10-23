@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using SmartHall.Application.Halls.Validators;
-using SmartHall.Contracts.Halls.Dtos;
-using SmartHall.Contracts.Halls.ReserveHall;
+using SmartHall.BLL.Halls.Validators;
+using SmartHall.Common.Halls.Models.Dtos;
+using SmartHall.Common.Halls.Models.ReserveHall;
 
 namespace SmartHall.UnitTests
 {
-	public sealed class ReserveHallRequestValidatorTests
+    public sealed class ReserveHallRequestValidatorTests
 	{
 		private readonly IValidator<ReserveHallRequest> _reserveHallRequestValidator;
 		private readonly Mock<TimeProvider> _timeProviderMock = new();

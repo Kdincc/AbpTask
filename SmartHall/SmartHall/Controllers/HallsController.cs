@@ -1,138 +1,143 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using ErrorOr;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartHall.Application.Halls.Services;
-using SmartHall.Contracts.Common.ApiRoutes;
-using SmartHall.Contracts.Halls.CreateHall;
-using SmartHall.Contracts.Halls.GetFreeHall;
-using SmartHall.Contracts.Halls.RemoveHall;
-using SmartHall.Contracts.Halls.ReserveHall;
-using SmartHall.Contracts.Halls.SearchFreeHall;
-using SmartHall.Contracts.Halls.UpdateHall;
-using SmartHall.Mappings;
+using SmartHall.Common.ApiRoutes;
+using SmartHall.Common.Halls;
+using SmartHall.Common.Halls.Models.CreateHall;
+using SmartHall.Common.Halls.Models.RemoveHall;
+using SmartHall.Common.Halls.Models.ReserveHall;
+using SmartHall.Common.Halls.Models.SearchFreeHall;
+using SmartHall.Common.Halls.Models.UpdateHall;
+using SmartHall.Controllers;
 
-namespace SmartHall.Controllers
+namespace SmartHall.Service.Controllers
 {
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	public sealed class HallsController : ApiController
-	{
-		private readonly IHallService _hallService;
-		private readonly IValidator<CreateHallRequest> _createHallValidator;
-		private readonly IValidator<RemoveHallRequest> _removeHallValidator;
-		private readonly IValidator<ReserveHallRequest> _reserveValidator;
-		private readonly IValidator<UpdateHallRequest> _updateHallValidator;
-		private readonly IValidator<SearchFreeHallRequest> _searchHallValidator;
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public sealed class HallsController : ApiController
+    {
+        private readonly IHallManager _hallService;
+        private readonly IValidator<CreateHallRequest> _createHallValidator;
+        private readonly IValidator<RemoveHallRequest> _removeHallValidator;
+        private readonly IValidator<ReserveHallRequest> _reserveValidator;
+        private readonly IValidator<UpdateHallRequest> _updateHallValidator;
+        private readonly IValidator<SearchFreeHallRequest> _searchHallValidator;
+        private readonly IMapper _mapper;
 
-		public HallsController(IHallService hallService,
-						 IValidator<CreateHallRequest> createHallValidator,
-						 IValidator<RemoveHallRequest> removeHallValidator,
-						 IValidator<ReserveHallRequest> reserveValidator,
-						 IValidator<UpdateHallRequest> updateValidator,
-						 IValidator<SearchFreeHallRequest> searchHallValidator)
-		{
-			_updateHallValidator = updateValidator;
-			_reserveValidator = reserveValidator;
-			_removeHallValidator = removeHallValidator;
-			_createHallValidator = createHallValidator;
-			_searchHallValidator = searchHallValidator;
+        public HallsController(IHallManager hallService,
+                         IValidator<CreateHallRequest> createHallValidator,
+                         IValidator<RemoveHallRequest> removeHallValidator,
+                         IValidator<ReserveHallRequest> reserveValidator,
+                         IValidator<UpdateHallRequest> updateValidator,
+                         IValidator<SearchFreeHallRequest> searchHallValidator,
+                         IMapper mapper)
+        {
+            _updateHallValidator = updateValidator;
+            _reserveValidator = reserveValidator;
+            _removeHallValidator = removeHallValidator;
+            _createHallValidator = createHallValidator;
+            _searchHallValidator = searchHallValidator;
 
-			_hallService = hallService;
-		}
+            _mapper = mapper;
 
-		[HttpPost(HallsControllerRoutes.CreateHall)]
-		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
-		[ProducesResponseType<CreateHallResponse>(StatusCodes.Status200OK)]
-		public async Task<IActionResult> CreateHall(CreateHallRequest request, CancellationToken cancellationToken)
-		{
-			var validationResult = await _createHallValidator.ValidateAsync(request, cancellationToken);
+            _hallService = hallService;
+        }
 
-			if (!validationResult.IsValid)
-			{
-				return Problem(validationResult.Errors.ToErrors());
-			}
+        [HttpPost(HallsControllerRoutes.CreateHall)]
+        [ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+        [ProducesResponseType<CreateHallResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateHall(CreateHallRequest request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _createHallValidator.ValidateAsync(request, cancellationToken);
 
-			var result = await _hallService.CreateHall(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Problem(_mapper.Map<List<Error>>(validationResult.Errors));
+            }
 
-			return result.Match(Ok, Problem);
-		}
+            var result = await _hallService.CreateHall(request, cancellationToken);
 
-		[HttpDelete(HallsControllerRoutes.RemoveHall)]
-		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-		[ProducesResponseType<RemoveHallResponse>(StatusCodes.Status200OK)]
-		public async Task<IActionResult> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
-		{
-			var validationResult = await _removeHallValidator.ValidateAsync(request, cancellationToken);
+            return result.Match(Ok, Problem);
+        }
 
-			if (!validationResult.IsValid)
-			{
-				return Problem(validationResult.Errors.ToErrors());
-			}
+        [HttpDelete(HallsControllerRoutes.RemoveHall)]
+        [ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<RemoveHallResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> RemoveHall(RemoveHallRequest request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _removeHallValidator.ValidateAsync(request, cancellationToken);
 
-			var result = await _hallService.RemoveHall(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Problem(_mapper.Map<List<Error>>(validationResult.Errors));
+            }
 
-			return result.Match(Ok, Problem);
-		}
+            var result = await _hallService.RemoveHall(request, cancellationToken);
 
-		[HttpPatch(HallsControllerRoutes.ReserveHall)]
-		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-		[ProducesResponseType<ReserveHallResponse>(StatusCodes.Status200OK)]
-		public async Task<IActionResult> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
-		{
-			var validationResult = await _reserveValidator.ValidateAsync(request, cancellationToken);
+            return result.Match(Ok, Problem);
+        }
 
-			if (!validationResult.IsValid)
-			{
-				return Problem(validationResult.Errors.ToErrors());
-			}
+        [HttpPatch(HallsControllerRoutes.ReserveHall)]
+        [ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<ReserveHallResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ReserveHall(ReserveHallRequest request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _reserveValidator.ValidateAsync(request, cancellationToken);
 
-			var result = await _hallService.ReserveHall(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Problem(_mapper.Map<List<Error>>(validationResult.Errors));
+            }
 
-			return result.Match(Ok, Problem);
-		}
+            var result = await _hallService.ReserveHall(request, cancellationToken);
 
-		[HttpPut(HallsControllerRoutes.UpdateHall)]
-		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
-		[ProducesResponseType<UpdateHallResponse>(StatusCodes.Status200OK)]
-		public async Task<IActionResult> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
-		{
-			var validationResult = await _updateHallValidator.ValidateAsync(request, cancellationToken);
+            return result.Match(Ok, Problem);
+        }
 
-			if (!validationResult.IsValid)
-			{
-				return Problem(validationResult.Errors.ToErrors());
-			}
+        [HttpPut(HallsControllerRoutes.UpdateHall)]
+        [ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+        [ProducesResponseType<UpdateHallResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateHall(UpdateHallRequest request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _updateHallValidator.ValidateAsync(request, cancellationToken);
 
-			var result = await _hallService.UpdateHall(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Problem(_mapper.Map<List<Error>>(validationResult.Errors));
+            }
 
-			return result.Match(Ok, Problem);
-		}
+            var result = await _hallService.UpdateHall(request, cancellationToken);
 
-		[HttpGet(HallsControllerRoutes.SearchFreeHall)]
-		[ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
-		[ProducesResponseType<SearchFreeHallResponse>(StatusCodes.Status200OK)]
-		public async Task<IActionResult> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
-		{
-			var validationResult = await _searchHallValidator.ValidateAsync(request, cancellationToken);
+            return result.Match(Ok, Problem);
+        }
 
-			if (!validationResult.IsValid)
-			{
-				return Problem(validationResult.Errors.ToErrors());
-			}
+        [HttpGet(HallsControllerRoutes.SearchFreeHall)]
+        [ProducesResponseType<UnauthorizedResult>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<SearchFreeHallResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchFreeHall(SearchFreeHallRequest request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _searchHallValidator.ValidateAsync(request, cancellationToken);
 
-			var result = await _hallService.SearchFreeHall(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Problem(_mapper.Map<List<Error>>(validationResult.Errors));
+            }
 
-			return Ok(result);
-		}
-	}
+            var result = await _hallService.SearchFreeHall(request, cancellationToken);
+
+            return Ok(result);
+        }
+    }
 }
